@@ -24,6 +24,8 @@
 		5A35A56C186E025500A9E223 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A35A547186E025500A9E223 /* UIKit.framework */; };
 		5A35A574186E025500A9E223 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5A35A572186E025500A9E223 /* InfoPlist.strings */; };
 		5A35A576186E025500A9E223 /* RewindTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A35A575186E025500A9E223 /* RewindTests.m */; };
+		5A35A581186E05A100A9E223 /* player.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5A35A580186E05A100A9E223 /* player.jpg */; };
+		5A35A585186E0A6400A9E223 /* wall.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5A35A584186E0A6400A9E223 /* wall.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +62,8 @@
 		5A35A571186E025500A9E223 /* RewindTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RewindTests-Info.plist"; sourceTree = "<group>"; };
 		5A35A573186E025500A9E223 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5A35A575186E025500A9E223 /* RewindTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RewindTests.m; sourceTree = "<group>"; };
+		5A35A580186E05A100A9E223 /* player.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = player.jpg; sourceTree = "<group>"; };
+		5A35A584186E0A6400A9E223 /* wall.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wall.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +98,7 @@
 				5A35A56F186E025500A9E223 /* RewindTests */,
 				5A35A542186E025500A9E223 /* Frameworks */,
 				5A35A541186E025500A9E223 /* Products */,
+				5A35A57F186E05A100A9E223 /* RewindAssets */,
 			);
 			sourceTree = "<group>";
 		};
@@ -162,6 +167,15 @@
 				5A35A572186E025500A9E223 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5A35A57F186E05A100A9E223 /* RewindAssets */ = {
+			isa = PBXGroup;
+			children = (
+				5A35A580186E05A100A9E223 /* player.jpg */,
+				5A35A584186E0A6400A9E223 /* wall.jpg */,
+			);
+			path = RewindAssets;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -241,6 +255,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A35A550186E025500A9E223 /* InfoPlist.strings in Resources */,
+				5A35A585186E0A6400A9E223 /* wall.jpg in Resources */,
+				5A35A581186E05A100A9E223 /* player.jpg in Resources */,
 				5A35A563186E025500A9E223 /* Images.xcassets in Resources */,
 				5A35A561186E025500A9E223 /* Spaceship.png in Resources */,
 				5A35A559186E025500A9E223 /* Main.storyboard in Resources */,
