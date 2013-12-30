@@ -8,15 +8,9 @@
 
 #import "MyScene.h"
 
-//static const uint32_t playerCategory   = 0x1 <<0;
-//static const uint32_t wallCategory     = 0x1 <<1;
-//static const uint32_t goalCategory     = 0x1 <<2;
-
-static const float g = 0.2f;
-static const float f = 0.0f;
-static const float termVel = -5.0f;
-static const float hThrust = 7.5f;
-static const float vThrust = 25.0f;
+static const uint32_t playerCategory   = 0x1 <<0;
+static const uint32_t wallCategory     = 0x1 <<1;
+static const uint32_t goalCategory     = 0x1 <<2;
 
 @interface MyScene () <SKPhysicsContactDelegate>
 @property (nonatomic) SKSpriteNode * player;
@@ -47,6 +41,14 @@ static const float vThrust = 25.0f;
             wall.position = CGPointMake((wall.size.width*i)+wall.size.width/2, (wall.size.height * 2.5f));
             [self addChild:wall];
             [self.walls addObject:wall];
+            wall.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:wall.frame.size];
+            wall.physicsBody.dynamic = NO;
+            wall.physicsBody.affectedByGravity = NO;
+            wall.physicsBody.restitution = 0.0;
+//            wall.physicsBody.mass = 1000.0;
+            wall.physicsBody.categoryBitMask = wallCategory;
+//            wall.physicsBody.contactTestBitMask = playerCategory;
+//            wall.physicsBody.collisionBitMask = playerCategory;
         }
         
         //Initialize a player
@@ -55,131 +57,28 @@ static const float vThrust = 25.0f;
         self.playerVel = CGPointMake(0.0f, 0.0f);
         [self addChild:self.player];
         
-//        int count = self.walls.count;
-//        NSLog(@"number of walls: %i", count);
+        self.player.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:self.player.frame.size];
+        self.player.physicsBody.dynamic = YES;
+        self.player.physicsBody.affectedByGravity = YES;
+        self.player.physicsBody.allowsRotation = NO;
+        self.player.physicsBody.restitution = 0.0;
+        self.player.physicsBody.mass = 1.0  ;
+        self.player.physicsBody.categoryBitMask = playerCategory;
+        self.player.physicsBody.contactTestBitMask = wallCategory;
+        self.player.physicsBody.collisionBitMask = wallCategory;
+        self.player.physicsBody.usesPreciseCollisionDetection = YES;
         
-//        self.physicsWorld.gravity = CGVectorMake(0,0);
-//        self.physicsWorld.contactDelegate = self;
+        
+        self.physicsWorld.gravity = CGVectorMake(0,-10.0);
+        self.physicsWorld.contactDelegate = self;
         
     }
     return self;
 }
 
--(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    
-    // 1 - Choose one of the touches to work with
-    UITouch * touch = [touches anyObject];
-    CGPoint location = [touch locationInNode:self];
-    
-    if (location.x <= 128) {
-        NSLog(@"L");
-        self.movingLeft = YES;
-        self.movingRight = NO;
-    }
-    
-    if (location.x > 128 && location.x <= 256) {
-        NSLog(@"R");
-        self.movingLeft = NO;
-        self.movingRight = YES;
-    }
-    
-    if (location.x >= 284) {
-        if (self.onGround == YES) {
-            NSLog(@"air");
-            self.onGround = NO;
-            self.player.position = CGPointMake(self.player.position.x, self.player.position.y + 1.0f);
-            self.playerVel = CGPointMake(self.playerVel.x, vThrust);
-        }
-    }
-}
-
--(void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    UITouch * touch = [touches anyObject];
-    CGPoint location = [touch locationInNode:self];
-    
-    if (location.x <= 128) {
-        if (!self.movingLeft) {
-            NSLog(@"L");
-            self.movingLeft = YES;
-            self.movingRight = NO;
-        }
-    }
-    
-    if (location.x > 128 && location.x <= 256) {
-        if (!self.movingRight) {
-            NSLog(@"R");
-            self.movingLeft = NO;
-            self.movingRight = YES;
-        }
-    }
-}
-
--(void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    UITouch * touch = [touches anyObject];
-    CGPoint location = [touch locationInNode:self];
-    
-    if (location.x <= 128) {
-        NSLog(@"I");
-        self.movingLeft = NO;
-        self.movingRight = NO;
-    }
-    
-    if (location.x > 128 && location.x <= 256) {
-        NSLog(@"I");
-        self.movingLeft = NO;
-        self.movingRight = NO;
-    }
-
-}
-
-//git test
 
 -(void)update:(CFTimeInterval)currentTime {
 
-    //update x
-    float newXvel;
-    if (self.movingLeft) {
-        newXvel = -hThrust;
-    }
-    if (self.movingRight) {
-        newXvel = hThrust;
-    }
-    if (!self.movingLeft && !self.movingRight) {
-        newXvel = f*self.playerVel.x;
-    }
-    
-    self.playerVel = CGPointMake(newXvel, self.playerVel.y);
-    
-    self.player.position = CGPointMake(self.player.position.x + newXvel, self.player.position.y);
-    
-    //update y
-    float newYvel = g*termVel + (1-g)*self.playerVel.y;
-    self.playerVel = CGPointMake(self.playerVel.x, newYvel);
-    
-    for (int j = 0; j<self.walls.count; j++) {
-        
-        SKSpriteNode * wall = [self.walls objectAtIndex:j];
-        
-        //check if player is above  wall section
-        if (abs(self.player.position.x - wall.position.x) < self.player.size.width/2 + wall.size.width/2 &&
-            abs(self.player.position.y - wall.position.y) > self.player.size.height/2 + wall.size.height/2) {
-            
-            //check if player will overshoot a wall, then correct for overshoot.
-            if (self.player.position.y + newYvel <= self.player.size.height/2 + wall.position.y + wall.size.height/2) {
-                self.player.position = CGPointMake(self.player.position.x, wall.position.y + wall.size.height/2 +self.player.size.height/2);
-                if (self.onGround == NO) {
-                    NSLog(@"ground");
-                    self.onGround = YES;
-                }
-                self.playerVel = CGPointMake(self.playerVel.x, 0.0f);
-            }
-            
-            //if player isn't going to land, just have the player fall
-            else {
-                self.player.position = CGPointMake(self.player.position.x, self.player.position.y+newYvel);
-            }
-        }
-    }
     
 }
 
