@@ -45,10 +45,7 @@ static const uint32_t goalCategory     = 0x1 <<2;
             wall.physicsBody.dynamic = NO;
             wall.physicsBody.affectedByGravity = NO;
             wall.physicsBody.restitution = 0.0;
-//            wall.physicsBody.mass = 1000.0;
             wall.physicsBody.categoryBitMask = wallCategory;
-//            wall.physicsBody.contactTestBitMask = playerCategory;
-//            wall.physicsBody.collisionBitMask = playerCategory;
         }
         
         //Initialize a player
@@ -69,17 +66,82 @@ static const uint32_t goalCategory     = 0x1 <<2;
         self.player.physicsBody.usesPreciseCollisionDetection = YES;
         
         
-        self.physicsWorld.gravity = CGVectorMake(0,-10.0);
+        self.physicsWorld.gravity = CGVectorMake(0,-20.0);
         self.physicsWorld.contactDelegate = self;
         
     }
     return self;
 }
 
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    UITouch * touch = [touches anyObject];
+    CGPoint location = [touch locationInNode:self];
+    
+    if (location.x >= self.size.width/2 && self.onGround) {
+        [self.player.physicsBody applyImpulse:CGVectorMake(0.0f, 750.0f)];
+    }
+    
+}
+
+-(BOOL) isBody:(SKSpriteNode *)a onTopOf:(SKSpriteNode *)b {
+    if (ABS(a.position.x - b.position.x) < (a.size.width + b.size.width)/2) {
+        return YES;
+    }
+    return NO;
+}
+
+- (void)didBeginContact:(SKPhysicsContact *)contact
+{
+    // 1
+    SKPhysicsBody *firstBody, *secondBody;
+    
+    if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask)
+    {
+        firstBody = contact.bodyA;
+        secondBody = contact.bodyB;
+    }
+    else
+    {
+        firstBody = contact.bodyB;
+        secondBody = contact.bodyA;
+    }
+    
+    // 2
+    if ((firstBody.categoryBitMask & playerCategory) != 0 &&
+        (secondBody.categoryBitMask & wallCategory) != 0)
+    {
+        if ([self isBody:(SKSpriteNode *)firstBody.node onTopOf:(SKSpriteNode*)secondBody.node]) {
+            self.onGround = YES;
+        }
+    }
+}
+
+-(void)didEndContact:(SKPhysicsContact *)contact {
+    // 1
+    SKPhysicsBody *firstBody, *secondBody;
+    
+    if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask)
+    {
+        firstBody = contact.bodyA;
+        secondBody = contact.bodyB;
+    }
+    else
+    {
+        firstBody = contact.bodyB;
+        secondBody = contact.bodyA;
+    }
+    
+    // 2
+    if ((firstBody.categoryBitMask & playerCategory) != 0 &&
+        (secondBody.categoryBitMask & wallCategory) != 0)
+    {
+        self.onGround = NO;
+    }
+}
 
 -(void)update:(CFTimeInterval)currentTime {
 
-    
 }
 
 @end
