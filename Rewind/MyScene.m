@@ -86,14 +86,14 @@ static const uint32_t goalCategory     = 0x1 <<2;
     
     if (location.x < 128) {
         self.movingLeft = YES;
-//        self.player.position = CGPointMake(self.player.position.x-5.0, self.player.position.y);
+        self.player.position = CGPointMake(self.player.position.x-5.0, self.player.position.y);
         self.movingRight = NO;
     }
     
     if (location.x >= 128 && location.x < 256) {
         self.movingLeft = NO;
         self.movingRight = YES;
-//        self.player.position = CGPointMake(self.player.position.x+5.0, self.player.position.y);
+        self.player.position = CGPointMake(self.player.position.x+5.0, self.player.position.y);
     }
 }
 
@@ -147,12 +147,12 @@ static const uint32_t goalCategory     = 0x1 <<2;
     }
     
     if (self.movingLeft) {
-        [self.player.physicsBody applyForce:CGVectorMake(-750.0, 0.0)];
-//        self.player.position = CGPointMake(self.player.position.x-5.0f, self.player.position.y);
+//        [self.player.physicsBody applyForce:CGVectorMake(-750.0, 0.0)];
+        self.player.position = CGPointMake(self.player.position.x-5.0f, self.player.position.y);
     }
     if (self.movingRight) {
-        [self.player.physicsBody applyForce:CGVectorMake(750.0, 0.0)];
-//        self.player.position = CGPointMake(self.player.position.x+5.0f, self.player.position.y);
+//        [self.player.physicsBody applyForce:CGVectorMake(750.0, 0.0)];
+        self.player.position = CGPointMake(self.player.position.x+5.0f, self.player.position.y);
     }
 }
 
