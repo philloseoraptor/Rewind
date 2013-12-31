@@ -12,11 +12,11 @@ static const uint32_t playerCategory   = 0x1 <<0;
 static const uint32_t wallCategory     = 0x1 <<1;
 static const uint32_t goalCategory     = 0x1 <<2;
 
-static const float g = 0.2f;
+static const float g = 0.1f;
 static const float f = 0.0f;
 static const float termVel = -5.0f;
 static const float hThrust = 7.5f;
-static const float vThrust = 25.0f;
+static const float vThrust = 10.0f;
 
 @interface MyScene () <SKPhysicsContactDelegate>
 @property (nonatomic) SKSpriteNode * player;
@@ -73,10 +73,6 @@ static const float vThrust = 25.0f;
     return self;
 }
 
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// HORIZONTAL MOVEMENT STILL LAGGY
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     
     // 1 - Choose one of the touches to work with
@@ -84,7 +80,6 @@ static const float vThrust = 25.0f;
     CGPoint location = [touch locationInNode:self];
     
     if (location.x <= 128) {
-        NSLog(@"L");
         self.movingLeft = YES;
         self.movingRight = NO;
         self.player.position = CGPointMake(self.player.position.x - hThrust, self.player.position.y);
@@ -92,7 +87,6 @@ static const float vThrust = 25.0f;
     }
     
     if (location.x > 128 && location.x <= 256) {
-        NSLog(@"R");
         self.movingLeft = NO;
         self.movingRight = YES;
         self.player.position = CGPointMake(self.player.position.x + hThrust, self.player.position.y);
@@ -100,7 +94,6 @@ static const float vThrust = 25.0f;
     
     if (location.x >= 284) {
         if (self.onGround) {
-            NSLog(@"air");
             self.player.position = CGPointMake(self.player.position.x, self.player.position.y + 1.0f);
             self.playerVel = CGPointMake(self.playerVel.x, vThrust);
         }
@@ -113,7 +106,6 @@ static const float vThrust = 25.0f;
     
     if (location.x <= 128) {
         if (!self.movingLeft) {
-            NSLog(@"L");
             self.movingLeft = YES;
             self.movingRight = NO;
         }
@@ -121,7 +113,6 @@ static const float vThrust = 25.0f;
     
     if (location.x > 128 && location.x <= 256) {
         if (!self.movingRight) {
-            NSLog(@"R");
             self.movingLeft = NO;
             self.movingRight = YES;
         }
@@ -133,13 +124,11 @@ static const float vThrust = 25.0f;
     CGPoint location = [touch locationInNode:self];
     
     if (location.x <= 128) {
-        NSLog(@"I");
         self.movingLeft = NO;
         self.movingRight = NO;
     }
     
     if (location.x > 128 && location.x <= 256) {
-        NSLog(@"I");
         self.movingLeft = NO;
         self.movingRight = NO;
     }
