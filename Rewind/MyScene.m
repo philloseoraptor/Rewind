@@ -53,7 +53,6 @@ static const float vThrust = 10.0f;
             wall.physicsBody.contactTestBitMask = playerCategory;
         }
         
-<<<<<<< HEAD
         for (int i = 1; i<18; i++) {
             SKSpriteNode * wall = [SKSpriteNode spriteNodeWithImageNamed:@"wall.jpg"];
             SKSpriteNode * wall2 = [SKSpriteNode spriteNodeWithImageNamed:@"wall.jpg"];
@@ -83,9 +82,6 @@ static const float vThrust = 10.0f;
         wall.physicsBody.categoryBitMask = wallCategory;
         wall.physicsBody.contactTestBitMask = playerCategory;
 
-        
-=======
->>>>>>> parent of 5b5c408... added horizontal collision, but things are buggy
         //Initialize a player
         self.player = [SKSpriteNode spriteNodeWithImageNamed:@"player.jpg"];
         self.player.position = CGPointMake(self.player.size.width, self.frame.size.height*0.75f);
