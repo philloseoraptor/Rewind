@@ -73,6 +73,10 @@ static const float vThrust = 25.0f;
     return self;
 }
 
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// HORIZONTAL MOVEMENT STILL LAGGY
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     
     // 1 - Choose one of the touches to work with
