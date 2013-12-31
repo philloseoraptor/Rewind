@@ -15,7 +15,7 @@ static const uint32_t goalCategory     = 0x1 <<2;
 static const float g = 0.1f;
 static const float f = 0.0f;
 static const float termVel = -5.0f;
-static const float hThrust = 1.0f;
+static const float hThrust = 5.0f;
 static const float vThrust = 10.0f;
 
 @interface MyScene () <SKPhysicsContactDelegate>
@@ -214,7 +214,7 @@ static const float vThrust = 10.0f;
                 }
             }
             //check if player is to right of wall
-            else if (self.player.position.x < wall.position.x) {
+            else if (self.player.position.x > wall.position.x) {
                 
                 //check if overshoot
                 if (self.player.position.x + newXvel < wall.position.x + (self.player.size.width + wall.size.width)/2) {
