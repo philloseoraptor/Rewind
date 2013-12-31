@@ -95,9 +95,8 @@ static const float vThrust = 25.0f;
     }
     
     if (location.x >= 284) {
-        if (self.onGround == YES) {
+        if (self.onGround) {
             NSLog(@"air");
-            self.onGround = NO;
             self.player.position = CGPointMake(self.player.position.x, self.player.position.y + 1.0f);
             self.playerVel = CGPointMake(self.playerVel.x, vThrust);
         }
@@ -143,10 +142,17 @@ static const float vThrust = 25.0f;
 
 }
 
+-(BOOL)isBody:(SKSpriteNode *)a above:(SKSpriteNode *)b {
+    if (ABS(a.position.x - b.position.x) < (a.size.width+b.size.width)/2 &&
+        a.position.y >= b.position.y + (b.size.height+a.size.height)/2) {
+        return YES;
+    }
+    return NO;
+}
 
 
 -(void)update:(CFTimeInterval)currentTime {
-
+    self.onGround = NO;
     //update x
     float newXvel;
     if (self.movingLeft) {
@@ -172,16 +178,12 @@ static const float vThrust = 25.0f;
         SKSpriteNode * wall = [self.walls objectAtIndex:j];
         
         //check if player is above  wall section
-        if (abs(self.player.position.x - wall.position.x) < self.player.size.width/2 + wall.size.width/2 &&
-            abs(self.player.position.y - wall.position.y) > self.player.size.height/2 + wall.size.height/2) {
+        if ([self isBody:self.player above:wall]) {
             
             //check if player will overshoot a wall, then correct for overshoot.
             if (self.player.position.y + newYvel <= self.player.size.height/2 + wall.position.y + wall.size.height/2) {
                 self.player.position = CGPointMake(self.player.position.x, wall.position.y + wall.size.height/2 +self.player.size.height/2);
-                if (self.onGround == NO) {
-                    NSLog(@"ground");
-                    self.onGround = YES;
-                }
+                self.onGround = YES;
                 self.playerVel = CGPointMake(self.playerVel.x, 0.0f);
             }
             
