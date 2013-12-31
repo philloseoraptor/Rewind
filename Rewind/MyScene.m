@@ -74,7 +74,7 @@ static const float vThrust = 10.0f;
         }
         
         SKSpriteNode * wall = [SKSpriteNode spriteNodeWithImageNamed:@"wall.jpg"];
-        wall.position = CGPointMake(wall.size.width*9.5, wall.size.height*3.5);
+        wall.position = CGPointMake(wall.size.width*8.5, wall.size.height*3.5);
         [self addChild:wall];
         [self.walls addObject:wall];
         wall.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:wall.size];
@@ -125,7 +125,8 @@ static const float vThrust = 10.0f;
     
     if (location.x >= 284) {
         if (self.onGround) {
-            self.player.position = CGPointMake(self.player.position.x, self.player.position.y + 1.0f);
+            NSLog(@"jump");
+//            self.player.position = CGPointMake(self.player.position.x, self.player.position.y + 1.0f);
             self.playerVel = CGPointMake(self.playerVel.x, vThrust);
         }
     }
@@ -168,7 +169,7 @@ static const float vThrust = 10.0f;
 
 -(BOOL)isBody:(SKSpriteNode *)a above:(SKSpriteNode *)b {
     if (ABS(a.position.x - b.position.x) < (a.size.width+b.size.width)/2 &&
-        a.position.y >= b.position.y + (b.size.height+a.size.height)/2) {
+        a.position.y > b.position.y + (b.size.height+a.size.height)/2) {
         return YES;
     }
     return NO;
@@ -184,6 +185,9 @@ static const float vThrust = 10.0f;
 
 -(void)update:(CFTimeInterval)currentTime {
     self.onGround = NO;
+    if (!self.onGround) {
+        NSLog(@"unground");
+    }
     //update x
     float newXvel;
     if (self.movingLeft) {
@@ -208,7 +212,7 @@ static const float vThrust = 10.0f;
             if (self.player.position.x < wall.position.x) {
                 
                 //check if overshoot
-                if (self.player.position.x + newXvel >= wall.position.x - (self.player.size.width + wall.size.width)/2) {
+                if (self.player.position.x + newXvel > wall.position.x - (self.player.size.width + wall.size.width)/2) {
                     self.player.position = CGPointMake(wall.position.x - (self.player.size.width + wall.size.width)/2, self.player.position.y);
                     self.playerVel = CGPointMake(0.0f, self.playerVel.y);
                 }
@@ -217,7 +221,7 @@ static const float vThrust = 10.0f;
             else if (self.player.position.x < wall.position.x) {
                 
                 //check if overshoot
-                if (self.player.position.x + newXvel <= wall.position.x + (self.player.size.width + wall.size.width)/2) {
+                if (self.player.position.x + newXvel < wall.position.x + (self.player.size.width + wall.size.width)/2) {
                     self.player.position = CGPointMake(wall.position.x + (self.player.size.width + wall.size.width)/2, self.player.position.y);
                     self.playerVel = CGPointMake(0.0f, self.playerVel.y);
                 }
@@ -247,12 +251,18 @@ static const float vThrust = 10.0f;
             if (self.player.position.y + newYvel <= self.player.size.height/2 + wall.position.y + wall.size.height/2) {
                 self.player.position = CGPointMake(self.player.position.x, wall.position.y + wall.size.height/2 +self.player.size.height/2);
                 self.onGround = YES;
+                if(self.onGround) NSLog(@"ground");
                 self.playerVel = CGPointMake(self.playerVel.x, 0.0f);
             }
             
             //if player isn't going to land, just have the player fall
             else {
                 self.player.position = CGPointMake(self.player.position.x, self.player.position.y+newYvel);
+            }
+            
+            if (self.player.position.y == wall.position.y + wall.size.height/2 +self.player.size.height/2) {
+                self.onGround = YES;
+                if(self.onGround) NSLog(@"ground");
             }
         }
     }
