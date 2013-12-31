@@ -208,7 +208,7 @@ static const float vThrust = 10.0f;
             if (self.player.position.x < wall.position.x) {
                 
                 //check if overshoot
-                if (self.player.position.x + newXvel >= wall.position.x - (self.player.size.width + wall.size.width)/2) {
+                if (self.player.position.x + newXvel > wall.position.x - (self.player.size.width + wall.size.width)/2) {
                     self.player.position = CGPointMake(wall.position.x - (self.player.size.width + wall.size.width)/2, self.player.position.y);
                     self.playerVel = CGPointMake(0.0f, self.playerVel.y);
                 }
@@ -217,7 +217,7 @@ static const float vThrust = 10.0f;
             else if (self.player.position.x < wall.position.x) {
                 
                 //check if overshoot
-                if (self.player.position.x + newXvel <= wall.position.x + (self.player.size.width + wall.size.width)/2) {
+                if (self.player.position.x + newXvel < wall.position.x + (self.player.size.width + wall.size.width)/2) {
                     self.player.position = CGPointMake(wall.position.x + (self.player.size.width + wall.size.width)/2, self.player.position.y);
                     self.playerVel = CGPointMake(0.0f, self.playerVel.y);
                 }
