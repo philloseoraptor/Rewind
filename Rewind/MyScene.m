@@ -15,7 +15,7 @@ static const uint32_t goalCategory     = 0x1 <<2;
 static const float g = 0.1f;
 static const float f = 0.0f;
 static const float termVel = -5.0f;
-static const float hThrust = 7.5f;
+static const float hThrust = 1.0f;
 static const float vThrust = 10.0f;
 
 @interface MyScene () <SKPhysicsContactDelegate>
@@ -42,7 +42,7 @@ static const float vThrust = 10.0f;
         self.backgroundColor = [SKColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
         
         //Initialize walls
-        for (int i = 0; i<36; i++) {
+        for (int i = 0; i<18; i++) {
             SKSpriteNode * wall = [SKSpriteNode spriteNodeWithImageNamed:@"wall.jpg"];
             wall.position = CGPointMake((wall.size.width*i)+wall.size.width/2, (wall.size.height * 2.5f));
             [self addChild:wall];
@@ -53,13 +53,44 @@ static const float vThrust = 10.0f;
             wall.physicsBody.contactTestBitMask = playerCategory;
         }
         
+        for (int i = 1; i<18; i++) {
+            SKSpriteNode * wall = [SKSpriteNode spriteNodeWithImageNamed:@"wall.jpg"];
+            SKSpriteNode * wall2 = [SKSpriteNode spriteNodeWithImageNamed:@"wall.jpg"];
+            wall.position = CGPointMake(wall.size.width/2, (wall.size.height * 2.5f)+wall.size.height*i);
+            wall2.position = CGPointMake(size.width-wall.size.width/2, (wall.size.height * 2.5f)+wall.size.height*i);
+            [self addChild:wall];
+            [self.walls addObject:wall];
+            wall.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:wall.size];
+            wall.physicsBody.dynamic = NO;
+            wall.physicsBody.categoryBitMask = wallCategory;
+            wall.physicsBody.contactTestBitMask = playerCategory;
+            
+            [self addChild:wall2];
+            [self.walls addObject:wall2];
+            wall2.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:wall.size];
+            wall2.physicsBody.dynamic = NO;
+            wall2.physicsBody.categoryBitMask = wallCategory;
+            wall2.physicsBody.contactTestBitMask = playerCategory;
+        }
+        
+        SKSpriteNode * wall = [SKSpriteNode spriteNodeWithImageNamed:@"wall.jpg"];
+        wall.position = CGPointMake(wall.size.width*9.5, wall.size.height*3.5);
+        [self addChild:wall];
+        [self.walls addObject:wall];
+        wall.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:wall.size];
+        wall.physicsBody.dynamic = NO;
+        wall.physicsBody.categoryBitMask = wallCategory;
+        wall.physicsBody.contactTestBitMask = playerCategory;
+
+        
         //Initialize a player
         self.player = [SKSpriteNode spriteNodeWithImageNamed:@"player.jpg"];
-        self.player.position = CGPointMake(self.player.size.width, self.frame.size.height*0.75f);
+        self.player.position = CGPointMake(self.player.size.width*1.5, self.frame.size.height*0.75f);
         self.playerVel = CGPointMake(0.0f, 0.0f);
         [self addChild:self.player];
         self.player.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:self.player.size];
-        self.player.physicsBody.dynamic = YES;
+        self.player.physicsBody.dynamic = NO;
+        self.player.physicsBody.allowsRotation = NO;
         self.player.physicsBody.categoryBitMask = playerCategory;
         self.player.physicsBody.contactTestBitMask = wallCategory;
         
@@ -143,6 +174,13 @@ static const float vThrust = 10.0f;
     return NO;
 }
 
+-(BOOL)isBody:(SKSpriteNode *)a levelWith:(SKSpriteNode *)b {
+    if (ABS(a.position.y - b.position.y) < (a.size.height+b.size.height)/2) {
+        return YES;
+    }
+    return NO;
+}
+
 
 -(void)update:(CFTimeInterval)currentTime {
     self.onGround = NO;
@@ -159,6 +197,38 @@ static const float vThrust = 10.0f;
     }
     
     self.playerVel = CGPointMake(newXvel, self.playerVel.y);
+    
+    for (int j = 0; j<self.walls.count; j++) {
+        
+        SKSpriteNode * wall = [self.walls objectAtIndex:j];
+        
+        if ([self isBody:self.player levelWith:wall]) {
+            
+            //check if player is to left of wall
+            if (self.player.position.x < wall.position.x) {
+                
+                //check if overshoot
+                if (self.player.position.x + newXvel >= wall.position.x - (self.player.size.width + wall.size.width)/2) {
+                    self.player.position = CGPointMake(wall.position.x - (self.player.size.width + wall.size.width)/2, self.player.position.y);
+                    self.playerVel = CGPointMake(0.0f, self.playerVel.y);
+                }
+            }
+            //check if player is to right of wall
+            else if (self.player.position.x < wall.position.x) {
+                
+                //check if overshoot
+                if (self.player.position.x + newXvel <= wall.position.x + (self.player.size.width + wall.size.width)/2) {
+                    self.player.position = CGPointMake(wall.position.x + (self.player.size.width + wall.size.width)/2, self.player.position.y);
+                    self.playerVel = CGPointMake(0.0f, self.playerVel.y);
+                }
+            }
+            
+            else {
+                self.player.position = CGPointMake(self.player.position.x + newXvel, self.player.position.y);
+            }
+        }
+    }
+    
     
     self.player.position = CGPointMake(self.player.position.x + newXvel, self.player.position.y);
     
