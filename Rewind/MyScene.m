@@ -45,6 +45,7 @@ static const uint32_t goalCategory     = 0x1 <<2;
             wall.physicsBody.dynamic = NO;
             wall.physicsBody.affectedByGravity = NO;
             wall.physicsBody.restitution = 0.0;
+            wall.physicsBody.friction = 0.0;
             wall.physicsBody.categoryBitMask = wallCategory;
         }
         
@@ -59,7 +60,8 @@ static const uint32_t goalCategory     = 0x1 <<2;
         self.player.physicsBody.affectedByGravity = YES;
         self.player.physicsBody.allowsRotation = NO;
         self.player.physicsBody.restitution = 0.0;
-        self.player.physicsBody.mass = 1.0  ;
+        self.player.physicsBody.mass = 1.0;
+        self.player.physicsBody.friction = 0.0;
         self.player.physicsBody.categoryBitMask = playerCategory;
         self.player.physicsBody.contactTestBitMask = wallCategory;
         self.player.physicsBody.collisionBitMask = wallCategory;
@@ -82,6 +84,46 @@ static const uint32_t goalCategory     = 0x1 <<2;
         [self.player.physicsBody applyImpulse:CGVectorMake(0.0f, 750.0f)];
     }
     
+    if (location.x < 128) {
+        self.movingLeft = YES;
+//        self.player.position = CGPointMake(self.player.position.x-5.0, self.player.position.y);
+        self.movingRight = NO;
+    }
+    
+    if (location.x >= 128 && location.x < 256) {
+        self.movingLeft = NO;
+        self.movingRight = YES;
+//        self.player.position = CGPointMake(self.player.position.x+5.0, self.player.position.y);
+    }
+}
+
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    UITouch * touch = [touches anyObject];
+    CGPoint location = [touch locationInNode:self];
+    
+    if (location.x < 128) {
+        self.movingLeft = NO;
+    }
+    
+    if (location.x >= 128 && location.x < 256) {
+        self.movingRight = NO;
+    }
+}
+
+-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    UITouch *touch = [touches anyObject];
+	CGPoint location = [touch locationInNode:self];
+    
+    if (location.x < 128) {
+        self.movingLeft = YES;
+        self.movingRight = NO;
+    }
+    
+    if (location.x >= 128 && location.x < 256) {
+        self.movingLeft = NO;
+        self.movingRight = YES;
+    }
 }
 
 -(BOOL) isBody:(SKSpriteNode *)a onTopOf:(SKSpriteNode *)b {
@@ -91,57 +133,27 @@ static const uint32_t goalCategory     = 0x1 <<2;
     return NO;
 }
 
-- (void)didBeginContact:(SKPhysicsContact *)contact
-{
-    // 1
-    SKPhysicsBody *firstBody, *secondBody;
+-(void)update:(CFTimeInterval)currentTime {
     
-    if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask)
-    {
-        firstBody = contact.bodyA;
-        secondBody = contact.bodyB;
-    }
-    else
-    {
-        firstBody = contact.bodyB;
-        secondBody = contact.bodyA;
-    }
+    self.onGround = NO;
     
-    // 2
-    if ((firstBody.categoryBitMask & playerCategory) != 0 &&
-        (secondBody.categoryBitMask & wallCategory) != 0)
-    {
-        if ([self isBody:(SKSpriteNode *)firstBody.node onTopOf:(SKSpriteNode*)secondBody.node]) {
+    for (int i = 0; i < self.player.physicsBody.allContactedBodies.count; i++) {
+        SKSpriteNode *wall = (SKSpriteNode*)[[self.player.physicsBody.allContactedBodies objectAtIndex:i]node];
+        if ([self isBody:self.player onTopOf:wall]) {
+            self.player.position = CGPointMake(self.player.position.x, wall.position.y+(wall.size.height/2));
             self.onGround = YES;
+            
         }
     }
-}
-
--(void)didEndContact:(SKPhysicsContact *)contact {
-    // 1
-    SKPhysicsBody *firstBody, *secondBody;
     
-    if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask)
-    {
-        firstBody = contact.bodyA;
-        secondBody = contact.bodyB;
+    if (self.movingLeft) {
+        [self.player.physicsBody applyForce:CGVectorMake(-750.0, 0.0)];
+//        self.player.position = CGPointMake(self.player.position.x-5.0f, self.player.position.y);
     }
-    else
-    {
-        firstBody = contact.bodyB;
-        secondBody = contact.bodyA;
+    if (self.movingRight) {
+        [self.player.physicsBody applyForce:CGVectorMake(750.0, 0.0)];
+//        self.player.position = CGPointMake(self.player.position.x+5.0f, self.player.position.y);
     }
-    
-    // 2
-    if ((firstBody.categoryBitMask & playerCategory) != 0 &&
-        (secondBody.categoryBitMask & wallCategory) != 0)
-    {
-        self.onGround = NO;
-    }
-}
-
--(void)update:(CFTimeInterval)currentTime {
-
 }
 
 @end
