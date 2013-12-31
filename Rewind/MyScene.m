@@ -75,12 +75,15 @@ static const float vThrust = 25.0f;
         NSLog(@"L");
         self.movingLeft = YES;
         self.movingRight = NO;
+        self.player.position = CGPointMake(self.player.position.x - hThrust, self.player.position.y);
+
     }
     
     if (location.x > 128 && location.x <= 256) {
         NSLog(@"R");
         self.movingLeft = NO;
         self.movingRight = YES;
+        self.player.position = CGPointMake(self.player.position.x + hThrust, self.player.position.y);
     }
     
     if (location.x >= 284) {
