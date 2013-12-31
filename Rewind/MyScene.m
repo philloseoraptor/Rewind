@@ -8,9 +8,9 @@
 
 #import "MyScene.h"
 
-//static const uint32_t playerCategory   = 0x1 <<0;
-//static const uint32_t wallCategory     = 0x1 <<1;
-//static const uint32_t goalCategory     = 0x1 <<2;
+static const uint32_t playerCategory   = 0x1 <<0;
+static const uint32_t wallCategory     = 0x1 <<1;
+static const uint32_t goalCategory     = 0x1 <<2;
 
 static const float g = 0.2f;
 static const float f = 0.0f;
@@ -47,6 +47,10 @@ static const float vThrust = 25.0f;
             wall.position = CGPointMake((wall.size.width*i)+wall.size.width/2, (wall.size.height * 2.5f));
             [self addChild:wall];
             [self.walls addObject:wall];
+            wall.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:wall.size];
+            wall.physicsBody.dynamic = NO;
+            wall.physicsBody.categoryBitMask = wallCategory;
+            wall.physicsBody.contactTestBitMask = playerCategory;
         }
         
         //Initialize a player
@@ -54,12 +58,16 @@ static const float vThrust = 25.0f;
         self.player.position = CGPointMake(self.player.size.width, self.frame.size.height*0.75f);
         self.playerVel = CGPointMake(0.0f, 0.0f);
         [self addChild:self.player];
+        self.player.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:self.player.size];
+        self.player.physicsBody.dynamic = YES;
+        self.player.physicsBody.categoryBitMask = playerCategory;
+        self.player.physicsBody.contactTestBitMask = wallCategory;
         
 //        int count = self.walls.count;
 //        NSLog(@"number of walls: %i", count);
         
-//        self.physicsWorld.gravity = CGVectorMake(0,0);
-//        self.physicsWorld.contactDelegate = self;
+        self.physicsWorld.gravity = CGVectorMake(0,0);
+        self.physicsWorld.contactDelegate = self;
         
     }
     return self;
