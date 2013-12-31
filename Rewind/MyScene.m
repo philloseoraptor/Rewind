@@ -166,14 +166,15 @@ static const float vThrust = 10.0f;
 
 }
 
--(BOOL)isBody:(SKSpriteNode *)a levelYWith:(SKSpriteNode *)b {
-    if (ABS(a.position.x - b.position.x) < (a.size.width+b.size.width)/2) {
+-(BOOL)isBody:(SKSpriteNode *)a above:(SKSpriteNode *)b {
+    if (ABS(a.position.x - b.position.x) < (a.size.width+b.size.width)/2 &&
+        a.position.y >= b.position.y + (b.size.height+a.size.height)/2) {
         return YES;
     }
     return NO;
 }
 
--(BOOL)isBody:(SKSpriteNode *)a levelXWith:(SKSpriteNode *)b {
+-(BOOL)isBody:(SKSpriteNode *)a levelWith:(SKSpriteNode *)b {
     if (ABS(a.position.y - b.position.y) < (a.size.height+b.size.height)/2) {
         return YES;
     }
@@ -201,7 +202,7 @@ static const float vThrust = 10.0f;
         
         SKSpriteNode * wall = [self.walls objectAtIndex:j];
         
-        if ([self isBody:self.player levelXWith:wall]) {
+        if ([self isBody:self.player levelWith:wall]) {
             
             //check if player is to left of wall
             if (self.player.position.x < wall.position.x) {
@@ -239,34 +240,19 @@ static const float vThrust = 10.0f;
         
         SKSpriteNode * wall = [self.walls objectAtIndex:j];
         
-        if ([self isBody:self.player levelYWith:wall]) {
+        //check if player is above  wall section
+        if ([self isBody:self.player above:wall]) {
             
-            if (self.player.position.y + newYvel > wall.position.y + (self.player.size.height + wall.size.height)/2) {
-                //check if player will overshoot a wall, then correct for overshoot.
-                if (self.player.position.y + newYvel <= self.player.size.height/2 + wall.position.y + wall.size.height/2) {
-                    self.player.position = CGPointMake(self.player.position.x, wall.position.y + wall.size.height/2 +self.player.size.height/2);
-                    self.onGround = YES;
-                    self.playerVel = CGPointMake(self.playerVel.x, 0.0f);
-                }
-                
-                //if player isn't going to land, just have the player fall
-                else {
-                    self.player.position = CGPointMake(self.player.position.x, self.player.position.y+newYvel);
-                }
-
+            //check if player will overshoot a wall, then correct for overshoot.
+            if (self.player.position.y + newYvel <= self.player.size.height/2 + wall.position.y + wall.size.height/2) {
+                self.player.position = CGPointMake(self.player.position.x, wall.position.y + wall.size.height/2 +self.player.size.height/2);
+                self.onGround = YES;
+                self.playerVel = CGPointMake(self.playerVel.x, 0.0f);
             }
-            if (self.player.position.y + newYvel < wall.position.y - (self.player.size.height + wall.size.height)/2) {
-                //check if player will overshoot a wall, then correct for overshoot.
-                if (self.player.position.y + newYvel <= self.player.size.height/2 + wall.position.y + wall.size.height/2) {
-                    self.player.position = CGPointMake(self.player.position.x, wall.position.y - (wall.size.height+self.player.size.height)/2);
-                    self.playerVel = CGPointMake(self.playerVel.x, 0.0f);
-                }
-                
-                //if player isn't going to land, just have the player fall
-                else {
-                    self.player.position = CGPointMake(self.player.position.x, self.player.position.y+newYvel);
-                }
-                
+            
+            //if player isn't going to land, just have the player fall
+            else {
+                self.player.position = CGPointMake(self.player.position.x, self.player.position.y+newYvel);
             }
         }
     }
