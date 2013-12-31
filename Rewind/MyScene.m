@@ -15,7 +15,7 @@ static const uint32_t goalCategory     = 0x1 <<2;
 static const float g = 0.1f;
 static const float f = 0.0f;
 static const float termVel = -5.0f;
-static const float hThrust = 7.5f;
+static const float hThrust = 1.0f;
 static const float vThrust = 10.0f;
 
 @interface MyScene () <SKPhysicsContactDelegate>
@@ -42,7 +42,7 @@ static const float vThrust = 10.0f;
         self.backgroundColor = [SKColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
         
         //Initialize walls
-        for (int i = 0; i<36; i++) {
+        for (int i = 0; i<18; i++) {
             SKSpriteNode * wall = [SKSpriteNode spriteNodeWithImageNamed:@"wall.jpg"];
             wall.position = CGPointMake((wall.size.width*i)+wall.size.width/2, (wall.size.height * 2.5f));
             [self addChild:wall];
@@ -74,7 +74,7 @@ static const float vThrust = 10.0f;
         }
         
         SKSpriteNode * wall = [SKSpriteNode spriteNodeWithImageNamed:@"wall.jpg"];
-        wall.position = CGPointMake(wall.size.width*8.5, wall.size.height*3.5);
+        wall.position = CGPointMake(wall.size.width*9.5, wall.size.height*3.5);
         [self addChild:wall];
         [self.walls addObject:wall];
         wall.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:wall.size];
@@ -82,13 +82,15 @@ static const float vThrust = 10.0f;
         wall.physicsBody.categoryBitMask = wallCategory;
         wall.physicsBody.contactTestBitMask = playerCategory;
 
+        
         //Initialize a player
         self.player = [SKSpriteNode spriteNodeWithImageNamed:@"player.jpg"];
-        self.player.position = CGPointMake(self.player.size.width, self.frame.size.height*0.75f);
+        self.player.position = CGPointMake(self.player.size.width*1.5, self.frame.size.height*0.75f);
         self.playerVel = CGPointMake(0.0f, 0.0f);
         [self addChild:self.player];
         self.player.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:self.player.size];
-        self.player.physicsBody.dynamic = YES;
+        self.player.physicsBody.dynamic = NO;
+        self.player.physicsBody.allowsRotation = NO;
         self.player.physicsBody.categoryBitMask = playerCategory;
         self.player.physicsBody.contactTestBitMask = wallCategory;
         
@@ -123,8 +125,7 @@ static const float vThrust = 10.0f;
     
     if (location.x >= 284) {
         if (self.onGround) {
-            NSLog(@"jump");
-//            self.player.position = CGPointMake(self.player.position.x, self.player.position.y + 1.0f);
+            self.player.position = CGPointMake(self.player.position.x, self.player.position.y + 1.0f);
             self.playerVel = CGPointMake(self.playerVel.x, vThrust);
         }
     }
@@ -167,12 +168,11 @@ static const float vThrust = 10.0f;
 
 -(BOOL)isBody:(SKSpriteNode *)a above:(SKSpriteNode *)b {
     if (ABS(a.position.x - b.position.x) < (a.size.width+b.size.width)/2 &&
-        a.position.y > b.position.y + (b.size.height+a.size.height)/2) {
+        a.position.y >= b.position.y + (b.size.height+a.size.height)/2) {
         return YES;
     }
     return NO;
 }
-
 
 -(BOOL)isBody:(SKSpriteNode *)a levelWith:(SKSpriteNode *)b {
     if (ABS(a.position.y - b.position.y) < (a.size.height+b.size.height)/2) {
@@ -184,9 +184,6 @@ static const float vThrust = 10.0f;
 
 -(void)update:(CFTimeInterval)currentTime {
     self.onGround = NO;
-    if (!self.onGround) {
-        NSLog(@"unground");
-    }
     //update x
     float newXvel;
     if (self.movingLeft) {
@@ -200,7 +197,7 @@ static const float vThrust = 10.0f;
     }
     
     self.playerVel = CGPointMake(newXvel, self.playerVel.y);
-
+    
     for (int j = 0; j<self.walls.count; j++) {
         
         SKSpriteNode * wall = [self.walls objectAtIndex:j];
@@ -211,7 +208,7 @@ static const float vThrust = 10.0f;
             if (self.player.position.x < wall.position.x) {
                 
                 //check if overshoot
-                if (self.player.position.x + newXvel > wall.position.x - (self.player.size.width + wall.size.width)/2) {
+                if (self.player.position.x + newXvel >= wall.position.x - (self.player.size.width + wall.size.width)/2) {
                     self.player.position = CGPointMake(wall.position.x - (self.player.size.width + wall.size.width)/2, self.player.position.y);
                     self.playerVel = CGPointMake(0.0f, self.playerVel.y);
                 }
@@ -220,7 +217,7 @@ static const float vThrust = 10.0f;
             else if (self.player.position.x < wall.position.x) {
                 
                 //check if overshoot
-                if (self.player.position.x + newXvel < wall.position.x + (self.player.size.width + wall.size.width)/2) {
+                if (self.player.position.x + newXvel <= wall.position.x + (self.player.size.width + wall.size.width)/2) {
                     self.player.position = CGPointMake(wall.position.x + (self.player.size.width + wall.size.width)/2, self.player.position.y);
                     self.playerVel = CGPointMake(0.0f, self.playerVel.y);
                 }
@@ -231,6 +228,7 @@ static const float vThrust = 10.0f;
             }
         }
     }
+    
     
     self.player.position = CGPointMake(self.player.position.x + newXvel, self.player.position.y);
     
@@ -249,18 +247,12 @@ static const float vThrust = 10.0f;
             if (self.player.position.y + newYvel <= self.player.size.height/2 + wall.position.y + wall.size.height/2) {
                 self.player.position = CGPointMake(self.player.position.x, wall.position.y + wall.size.height/2 +self.player.size.height/2);
                 self.onGround = YES;
-                if(self.onGround) NSLog(@"ground");
                 self.playerVel = CGPointMake(self.playerVel.x, 0.0f);
             }
             
             //if player isn't going to land, just have the player fall
             else {
                 self.player.position = CGPointMake(self.player.position.x, self.player.position.y+newYvel);
-            }
-            
-            if (self.player.position.y == wall.position.y + wall.size.height/2 +self.player.size.height/2) {
-                self.onGround = YES;
-                if(self.onGround) NSLog(@"ground");
             }
         }
     }
