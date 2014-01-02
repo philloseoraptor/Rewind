@@ -8,11 +8,7 @@
 
 #import "MyScene.h"
 
-static const uint32_t playerCategory   = 0x1 <<0;
-static const uint32_t wallCategory     = 0x1 <<1;
-static const uint32_t goalCategory     = 0x1 <<2;
-
-static const float g = 0.1f;
+static const float g = 0.05f;
 static const float f = 0.0f;
 static const float termVel = -5.0f;
 static const float hThrust = 5.0f;
@@ -47,10 +43,6 @@ static const float vThrust = 10.0f;
             wall.position = CGPointMake((wall.size.width*i)+wall.size.width/2, (wall.size.height * 2.5f));
             [self addChild:wall];
             [self.walls addObject:wall];
-            wall.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:wall.size];
-            wall.physicsBody.dynamic = NO;
-            wall.physicsBody.categoryBitMask = wallCategory;
-            wall.physicsBody.contactTestBitMask = playerCategory;
         }
         
         for (int i = 1; i<18; i++) {
@@ -60,27 +52,14 @@ static const float vThrust = 10.0f;
             wall2.position = CGPointMake(size.width-wall.size.width/2, (wall.size.height * 2.5f)+wall.size.height*i);
             [self addChild:wall];
             [self.walls addObject:wall];
-            wall.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:wall.size];
-            wall.physicsBody.dynamic = NO;
-            wall.physicsBody.categoryBitMask = wallCategory;
-            wall.physicsBody.contactTestBitMask = playerCategory;
-            
             [self addChild:wall2];
             [self.walls addObject:wall2];
-            wall2.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:wall.size];
-            wall2.physicsBody.dynamic = NO;
-            wall2.physicsBody.categoryBitMask = wallCategory;
-            wall2.physicsBody.contactTestBitMask = playerCategory;
         }
         
         SKSpriteNode * wall = [SKSpriteNode spriteNodeWithImageNamed:@"wall.jpg"];
         wall.position = CGPointMake(wall.size.width*9.5, wall.size.height*3.5);
         [self addChild:wall];
         [self.walls addObject:wall];
-        wall.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:wall.size];
-        wall.physicsBody.dynamic = NO;
-        wall.physicsBody.categoryBitMask = wallCategory;
-        wall.physicsBody.contactTestBitMask = playerCategory;
 
         
         //Initialize a player
@@ -88,17 +67,6 @@ static const float vThrust = 10.0f;
         self.player.position = CGPointMake(self.player.size.width*1.5, self.frame.size.height*0.75f);
         self.playerVel = CGPointMake(0.0f, 0.0f);
         [self addChild:self.player];
-        self.player.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:self.player.size];
-        self.player.physicsBody.dynamic = NO;
-        self.player.physicsBody.allowsRotation = NO;
-        self.player.physicsBody.categoryBitMask = playerCategory;
-        self.player.physicsBody.contactTestBitMask = wallCategory;
-        
-//        int count = self.walls.count;
-//        NSLog(@"number of walls: %i", count);
-        
-        self.physicsWorld.gravity = CGVectorMake(0,0);
-        self.physicsWorld.contactDelegate = self;
         
     }
     return self;
@@ -181,6 +149,9 @@ static const float vThrust = 10.0f;
     return NO;
 }
 
+-(void)updatePlayerPosition:(SKSpriteNode*)player {
+    
+}
 
 -(void)update:(CFTimeInterval)currentTime {
     self.onGround = NO;
