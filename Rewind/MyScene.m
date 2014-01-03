@@ -50,17 +50,19 @@ static const float vThrust = 5.0f;
             SKSpriteNode * wall3 = [SKSpriteNode spriteNodeWithImageNamed:@"wall.jpg"];
             wall2.position = CGPointMake(wall2.size.width/2, (wall2.size.height * 3.5f)+wall2.size.height*i);
             wall3.position = CGPointMake(560.0, (wall3.size.height * 3.5f)+wall3.size.height*i);
-            NSLog(@"(%i,%i)",(int)wall3.position.x,(int)wall3.position.y);
+//            NSLog(@"(%i,%i)",(int)wall3.position.x,(int)wall3.position.y);
             [self addChild:wall2];
             [self addChild:wall3];
             [self.walls addObject:wall2];
             [self.walls addObject:wall3];
         }
         
-        SKSpriteNode * wall = [SKSpriteNode spriteNodeWithImageNamed:@"wall.jpg"];
-        wall.position = CGPointMake(wall.size.width*9.5, wall.size.height*3.5);
-        [self addChild:wall];
-        [self.walls addObject:wall];
+        for (int i = 0; i<1; i++) {
+            SKSpriteNode * wall = [SKSpriteNode spriteNodeWithImageNamed:@"wall.jpg"];
+            wall.position = CGPointMake(wall.size.width*9.5, wall.size.height*3.5+wall.size.height*i);
+            [self addChild:wall];
+            [self.walls addObject:wall];
+        }
 
         
         //Initialize a player
@@ -69,7 +71,7 @@ static const float vThrust = 5.0f;
         self.playerVel = CGPointMake(0.0f, 0.0f);
         [self addChild:self.player];
         
-        NSLog(@"walls: %i",self.walls.count);
+//        NSLog(@"walls: %i",self.walls.count);
     }
     return self;
 }
@@ -255,16 +257,24 @@ static const float vThrust = 5.0f;
             if (P.position.y >= B.position.y) {
                 P.position = CGPointMake(P.position.x, B.position.y+(B.size.height + P.size.height)/2);
                 self.onGround = YES;
+                self.playerVel = CGPointMake(self.playerVel.x, 0.0f);
             }
-            else P.position = CGPointMake(P.position.x, B.position.y-(B.size.height + P.size.height)/2);
+            else {
+                P.position = CGPointMake(P.position.x, B.position.y-(B.size.height + P.size.height)/2);
+                self.playerVel = CGPointMake(self.playerVel.x, 0.0f);
+            }
         }
         
         //x first
         else {
             if (P.position.x >= B.position.x) {
                 P.position = CGPointMake(B.position.x+(B.size.width+P.size.width)/2, P.position.y);
+                self.playerVel = CGPointMake(0.0f, self.playerVel.y);
             }
-            else P.position = CGPointMake(B.position.x-(B.size.width+P.size.width)/2, P.position.y);
+            else {
+                P.position = CGPointMake(B.position.x-(B.size.width+P.size.width)/2, P.position.y);
+                self.playerVel = CGPointMake(0.0f, self.playerVel.y);
+            }
             
         }
     }
