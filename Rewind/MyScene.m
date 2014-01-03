@@ -8,11 +8,11 @@
 
 #import "MyScene.h"
 
-static const float g = 0.01f;
+static const float g = 0.1f;
 static const float f = 0.0f;
 static const float termVel = -5.0f;
-static const float hThrust = 5.0f;
-static const float vThrust = 5.0f;
+static const float hThrust = 4.0f;
+static const float vThrust = 20.0f;
 
 @interface MyScene () <SKPhysicsContactDelegate>
 @property (nonatomic) SKSpriteNode * player;
@@ -59,11 +59,17 @@ static const float vThrust = 5.0f;
         
         for (int i = 0; i<1; i++) {
             SKSpriteNode * wall = [SKSpriteNode spriteNodeWithImageNamed:@"wall.jpg"];
-            wall.position = CGPointMake(wall.size.width*9.5, wall.size.height*3.5+wall.size.height*i);
+            wall.position = CGPointMake(wall.size.width*6.5, wall.size.height*3.5+wall.size.height*i);
             [self addChild:wall];
             [self.walls addObject:wall];
         }
-
+        
+        for (int i = 0; i<3; i++) {
+            SKSpriteNode * wall = [SKSpriteNode spriteNodeWithImageNamed:@"wall.jpg"];
+            wall.position = CGPointMake(wall.size.width*9.5+wall.size.width*i, wall.size.height*6.5);
+            [self addChild:wall];
+            [self.walls addObject:wall];
+        }
         
         //Initialize a player
         self.player = [SKSpriteNode spriteNodeWithImageNamed:@"player.jpg"];
@@ -85,14 +91,14 @@ static const float vThrust = 5.0f;
     if (location.x <= 128) {
         self.movingLeft = YES;
         self.movingRight = NO;
-//        self.player.position = CGPointMake(self.player.position.x - hThrust, self.player.position.y);
+        self.player.position = CGPointMake(self.player.position.x - hThrust, self.player.position.y);
 
     }
     
     if (location.x > 128 && location.x <= 256) {
         self.movingLeft = NO;
         self.movingRight = YES;
-//        self.player.position = CGPointMake(self.player.position.x + hThrust, self.player.position.y);
+        self.player.position = CGPointMake(self.player.position.x + hThrust, self.player.position.y);
     }
     
     if (location.x >= 284) {
