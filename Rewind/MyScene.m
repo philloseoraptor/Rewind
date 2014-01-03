@@ -45,15 +45,15 @@ static const float vThrust = 10.0f;
             [self.walls addObject:wall];
         }
         
-        for (int i = 1; i<18; i++) {
-            SKSpriteNode * wall = [SKSpriteNode spriteNodeWithImageNamed:@"wall.jpg"];
+        for (int i = 0; i<7; i++) {
             SKSpriteNode * wall2 = [SKSpriteNode spriteNodeWithImageNamed:@"wall.jpg"];
-            wall.position = CGPointMake(wall.size.width/2, (wall.size.height * 2.5f)+wall.size.height*i);
-            wall2.position = CGPointMake(size.width-wall.size.width/2, (wall.size.height * 2.5f)+wall.size.height*i);
-            [self addChild:wall];
-            [self.walls addObject:wall];
+            SKSpriteNode * wall3 = [SKSpriteNode spriteNodeWithImageNamed:@"wall.jpg"];
+            wall2.position = CGPointMake(wall2.size.width/2, (wall2.size.height * 3.5f)+wall2.size.height*i);
+            wall3.position = CGPointMake(size.width-wall3.size.width/2, (wall3.size.height * 3.5f)+wall3.size.height*i);
             [self addChild:wall2];
             [self.walls addObject:wall2];
+            [self addChild:wall3];
+            [self.walls addObject:wall3];
         }
         
         SKSpriteNode * wall = [SKSpriteNode spriteNodeWithImageNamed:@"wall.jpg"];
