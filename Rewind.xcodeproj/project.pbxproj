@@ -17,7 +17,6 @@
 		5A35A559186E025500A9E223 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A35A557186E025500A9E223 /* Main.storyboard */; };
 		5A35A55C186E025500A9E223 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A35A55B186E025500A9E223 /* ViewController.m */; };
 		5A35A55F186E025500A9E223 /* MyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A35A55E186E025500A9E223 /* MyScene.m */; };
-		5A35A561186E025500A9E223 /* Spaceship.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A35A560186E025500A9E223 /* Spaceship.png */; };
 		5A35A563186E025500A9E223 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A35A562186E025500A9E223 /* Images.xcassets */; };
 		5A35A56A186E025500A9E223 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A35A569186E025500A9E223 /* XCTest.framework */; };
 		5A35A56B186E025500A9E223 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A35A543186E025500A9E223 /* Foundation.framework */; };
@@ -55,7 +54,6 @@
 		5A35A55B186E025500A9E223 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		5A35A55D186E025500A9E223 /* MyScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyScene.h; sourceTree = "<group>"; };
 		5A35A55E186E025500A9E223 /* MyScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyScene.m; sourceTree = "<group>"; };
-		5A35A560186E025500A9E223 /* Spaceship.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Spaceship.png; sourceTree = "<group>"; };
 		5A35A562186E025500A9E223 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5A35A568186E025500A9E223 /* RewindTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RewindTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A35A569186E025500A9E223 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -133,7 +131,6 @@
 				5A35A55B186E025500A9E223 /* ViewController.m */,
 				5A35A55D186E025500A9E223 /* MyScene.h */,
 				5A35A55E186E025500A9E223 /* MyScene.m */,
-				5A35A560186E025500A9E223 /* Spaceship.png */,
 				5A35A562186E025500A9E223 /* Images.xcassets */,
 				5A35A54C186E025500A9E223 /* Supporting Files */,
 			);
@@ -258,7 +255,6 @@
 				5A35A585186E0A6400A9E223 /* wall.jpg in Resources */,
 				5A35A581186E05A100A9E223 /* player.jpg in Resources */,
 				5A35A563186E025500A9E223 /* Images.xcassets in Resources */,
-				5A35A561186E025500A9E223 /* Spaceship.png in Resources */,
 				5A35A559186E025500A9E223 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -492,6 +488,7 @@
 				5A35A57B186E025500A9E223 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5A35A57C186E025500A9E223 /* Build configuration list for PBXNativeTarget "RewindTests" */ = {
 			isa = XCConfigurationList;
@@ -500,6 +497,7 @@
 				5A35A57E186E025500A9E223 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
