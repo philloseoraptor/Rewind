@@ -10,4 +10,12 @@
 
 @interface TileMap : NSMutableArray
 
+@property (nonatomic) CGPoint position;
+@property (nonatomic) int TS;
+
+-(NSString*)objectAtIndex:(CGPoint)tile;
+-(CGPoint)tileFromLocation:(CGPoint)location;
+-(CGPoint)locationFromTile:(CGPoint)tile;
+-(NSArray*)getTilesAroundTile:(CGPoint)tile;
+
 @end
