@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A259063187DE18D0015C59F /* TileMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A259062187DE18D0015C59F /* TileMap.m */; };
+		5A259065187DE51C0015C59F /* lvl_1.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5A259064187DE51C0015C59F /* lvl_1.txt */; };
 		5A35A544186E025500A9E223 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A35A543186E025500A9E223 /* Foundation.framework */; };
 		5A35A546186E025500A9E223 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A35A545186E025500A9E223 /* CoreGraphics.framework */; };
 		5A35A548186E025500A9E223 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A35A547186E025500A9E223 /* UIKit.framework */; };
@@ -39,6 +41,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5A259061187DE18D0015C59F /* TileMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileMap.h; sourceTree = "<group>"; };
+		5A259062187DE18D0015C59F /* TileMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileMap.m; sourceTree = "<group>"; };
+		5A259064187DE51C0015C59F /* lvl_1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = lvl_1.txt; sourceTree = "<group>"; };
 		5A35A540186E025500A9E223 /* Rewind.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rewind.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A35A543186E025500A9E223 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5A35A545186E025500A9E223 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -134,6 +139,8 @@
 				5A35A55B186E025500A9E223 /* ViewController.m */,
 				5A35A55D186E025500A9E223 /* MyScene.h */,
 				5A35A55E186E025500A9E223 /* MyScene.m */,
+				5A259061187DE18D0015C59F /* TileMap.h */,
+				5A259062187DE18D0015C59F /* TileMap.m */,
 				5AD297C818775B9600845883 /* Player.h */,
 				5AD297C918775B9600845883 /* Player.m */,
 				5A35A562186E025500A9E223 /* Images.xcassets */,
@@ -176,6 +183,7 @@
 			children = (
 				5A35A580186E05A100A9E223 /* player.jpg */,
 				5A35A584186E0A6400A9E223 /* wall.jpg */,
+				5A259064187DE51C0015C59F /* lvl_1.txt */,
 			);
 			path = RewindAssets;
 			sourceTree = "<group>";
@@ -257,6 +265,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A35A550186E025500A9E223 /* InfoPlist.strings in Resources */,
+				5A259065187DE51C0015C59F /* lvl_1.txt in Resources */,
 				5A35A585186E0A6400A9E223 /* wall.jpg in Resources */,
 				5A35A581186E05A100A9E223 /* player.jpg in Resources */,
 				5A35A563186E025500A9E223 /* Images.xcassets in Resources */,
@@ -279,6 +288,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A259063187DE18D0015C59F /* TileMap.m in Sources */,
 				5A35A55F186E025500A9E223 /* MyScene.m in Sources */,
 				5A35A55C186E025500A9E223 /* ViewController.m in Sources */,
 				5A35A556186E025500A9E223 /* AppDelegate.m in Sources */,

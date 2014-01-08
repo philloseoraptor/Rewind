@@ -126,6 +126,10 @@ static const float vThrust = 20.0f;
             self.movingRight = YES;
         }
     }
+    if (location.x >= 284) {
+        self.movingRight = NO;
+        self.movingLeft = NO;
+    }
 }
 
 -(void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
