@@ -1,10 +1,11 @@
-wwwwwwwwwwwwwwwwwb
-w               wb
-w               wb
-w               wb
-w               wb
-w              gwb
-w          wwwwwwb
-w               wb
-ws      w       wb
-wwwwwwwwwwwwwwwww
+                   b
+                  b
+wwwwwwwwwwwwwwwwwwb
+ws      w        wb
+w                wb
+w         wwwww  wb
+w             g  wb
+w                wb
+w                wb
+w                wb
+wwwwwwwwwwwwwwwwww

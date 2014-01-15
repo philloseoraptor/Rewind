@@ -20,4 +20,5 @@
 -(void)moveLeft;
 -(void)moveRight;
 -(CGPoint)desirePositionWithGravity:(float) g;
+-(void)checkAndResolveCollisionWith:(SKSpriteNode*)object;
 @end

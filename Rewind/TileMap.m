@@ -8,17 +8,31 @@
 
 #import "TileMap.h"
 
-NSArray *stringRepByLines;
+
 
 @implementation TileMap
 
 -(id)initMapFromFilePath:(NSString*)path withPosition:(CGPoint)position tileSize:(int) TS {
     if (self = [super init]) {
         NSString *stringRepresentation = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
-        stringRepByLines = [stringRepresentation componentsSeparatedByString:@"b"];
+        self.stringRepByLines = [stringRepresentation componentsSeparatedByString:@"b"];
         
-        [self arrayByAddingObjectsFromArray:stringRepByLines];
+        for (NSString* line in self.stringRepByLines) NSLog(line);
         
+//        [self arrayByAddingObjectsFromArray:self.stringRepByLines];
+        
+        int width = 0;
+        
+        for (NSString* line in self.stringRepByLines) {
+            NSLog(@"%i",line.length);
+            unichar character = [line characterAtIndex:0];
+            NSLog(@"%c", character);
+            if (width < line.length) {
+                width = line.length;
+            }
+        }
+        self.dimensions = CGPointMake((int)self.stringRepByLines.count,(int)width);
+        NSLog(@"%f,%f",self.dimensions.x,self.dimensions.y);
         self.position = position;
         self.TS = TS;
     }
@@ -27,9 +41,9 @@ NSArray *stringRepByLines;
 
 -(NSString*)objectAtIndex:(CGPoint)tile {
     
-    if (tile.x < stringRepByLines.count) {
-        if (tile.y < [[stringRepByLines objectAtIndex:tile.x] length]) {
-            unichar characterAtIndex = [[stringRepByLines objectAtIndex:tile.x] characterAtIndex:tile.y];
+    if (tile.x < self.dimensions.x) {
+        if (tile.y < self.dimensions.y) {
+            unichar characterAtIndex = [[self.stringRepByLines objectAtIndex:tile.x] characterAtIndex:tile.y];
             
             if (characterAtIndex == ' ') return @"empty";
             else if (characterAtIndex == 's') return @"start";
@@ -53,7 +67,7 @@ NSArray *stringRepByLines;
 
 -(CGPoint)locationFromTile:(CGPoint)tile {
     
-    return CGPointMake(((float)(tile.x)*self.TS)+(self.TS/2)+self.position.x, ((float)(tile.y)*self.TS)+(self.TS/2) + self.position.y);
+    return CGPointMake(((tile.y-1)*self.TS)+(self.TS/2)+self.position.x, ((tile.x)*self.TS)+(self.TS/2) + self.position.y);
 
 }
 

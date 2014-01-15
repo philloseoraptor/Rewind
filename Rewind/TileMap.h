@@ -12,6 +12,8 @@
 
 @property (nonatomic) CGPoint position;
 @property (nonatomic) int TS;
+@property (nonatomic) NSArray *stringRepByLines;
+@property (nonatomic) CGPoint dimensions;
 
 -(id)initMapFromFilePath:(NSString*)path withPosition:(CGPoint)position tileSize:(int) TS;
 -(NSString*)objectAtIndex:(CGPoint)tile;
