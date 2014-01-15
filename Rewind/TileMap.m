@@ -69,6 +69,10 @@ NSArray *stringRepByLines;
         }
     }
     
+    [surroundingTiles exchangeObjectAtIndex:0 withObjectAtIndex:3];
+    [surroundingTiles exchangeObjectAtIndex:2 withObjectAtIndex:4];
+    [surroundingTiles exchangeObjectAtIndex:3 withObjectAtIndex:6];
+    
     return surroundingTiles;
 }
 

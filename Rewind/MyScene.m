@@ -7,6 +7,8 @@
 //
 
 #import "MyScene.h"
+#import "Player.h"
+#import "TileMap.h"
 
 static const float g = 0.1f;
 static const float f = 0.0f;
@@ -21,6 +23,9 @@ static const float vThrust = 20.0f;
 @property (nonatomic) BOOL movingLeft;
 @property (nonatomic) BOOL movingRight;
 @property (nonatomic) NSMutableArray * walls;
+@property (nonatomic) TileMap* tm;
+@property (nonatomic) Player * p;
+
 @end
 
 @implementation MyScene
@@ -28,6 +33,8 @@ static const float vThrust = 20.0f;
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
+        NSString* tmPath = [[NSBundle mainBundle] pathForResource:@"lvl_1" ofType:@"txt"];
+        self.tm = [[TileMap alloc]initMapFromFilePath:tmPath withPosition:CGPointMake(0.0, 0.0) tileSize:32];
         
         self.walls = [[NSMutableArray alloc]init];
         
@@ -211,6 +218,22 @@ static const float vThrust = 20.0f;
     return surroundingTiles;
 }
 
+//KEEP
+-(NSArray*)getWallsInTiles:(NSArray*)tiles{
+    
+    for (NSValue *tileObject in tiles) {
+        CGPoint tile = [tileObject CGPointValue];
+        CGPoint tilePos = [self.tm locationFromTile:tile];
+        
+        for (SKSpriteNode* wall in self.walls) {
+            if (wall.position.x == tilePos.x && wall.position.y == tilePos.y) {
+                [p checkAndResolveCollisionWith:wall];
+            }
+        }
+    }
+    
+}
+
 -(CGPoint) addCGPoint:(CGPoint) p1 toCGPoint:(CGPoint) p2
 {
     return CGPointMake(p1.x + p2.x, p1.y + p2.y);
@@ -257,6 +280,7 @@ static const float vThrust = 20.0f;
     player.position = tempPlayer.position;
     
 }
+
 
 -(void)checkAndResolveCollisionofPlayer:(SKSpriteNode*)P with:(SKSpriteNode*)B {
     if (CGRectIntersectsRect(P.frame, B.frame)) {

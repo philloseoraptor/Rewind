@@ -13,6 +13,7 @@
 @property (nonatomic) CGPoint position;
 @property (nonatomic) int TS;
 
+-(id)initMapFromFilePath:(NSString*)path withPosition:(CGPoint)position tileSize:(int) TS;
 -(NSString*)objectAtIndex:(CGPoint)tile;
 -(CGPoint)tileFromLocation:(CGPoint)location;
 -(CGPoint)locationFromTile:(CGPoint)tile;

@@ -59,5 +59,36 @@ static const float vThrust = 20.0f;
     return self.desiredPosition;
 }
 
+-(void)checkAndResolveCollisionWith:(SKSpriteNode*)object {
+    
+    SKSpriteNode* tempPlayer = self;
+    tempPlayer.position = self.desiredPosition;
+    
+    if (CGRectIntersectsRect(tempPlayer.frame, object.frame)) {
+        if (CGRectIntersection(tempPlayer.frame, object.frame).size.height <= CGRectIntersection(tempPlayer.frame, object.frame).size.width) {
+            if (tempPlayer.position.y >= object.position.y) {
+                self.position = CGPointMake(tempPlayer.position.x, object.position.y + (object.size.height + self.size.height)/2);
+                self.onGround = YES;
+                self.yVel = 0.0f;
+            }
+            else {
+                self.position = CGPointMake(tempPlayer.position.x, object.position.y - (object.size.height + self.size.height)/2);
+                self.yVel = 0.0f;
+            }
+        }
+        else {
+            if (tempPlayer.position.x >= object.position.x) {
+                self.position = CGPointMake(object.position.x+(object.size.width+self.size.width)/2, tempPlayer.position.y);
+                self.xVel = 0.0f;
+            }
+            else {
+                self.position = CGPointMake(object.position.x-(object.size.width+self.size.width)/2, tempPlayer.position.y);
+                self.xVel = 0.0f;
+            }
+        }
+    }
+    
+}
+
 @end
 
