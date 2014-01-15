@@ -10,11 +10,11 @@
 #import "Player.h"
 #import "TileMap.h"
 
-static const float g = 0.1f;
+static const float g = 0.01f;
 static const float f = 0.0f;
 static const float termVel = -5.0f;
-static const float hThrust = 4.0f;
-static const float vThrust = 20.0f;
+static const float hThrust = 5.0f;
+static const float vThrust = 5.0f;
 
 @interface MyScene () <SKPhysicsContactDelegate>
 //@property (nonatomic) SKSpriteNode * player;
@@ -59,8 +59,23 @@ static const float vThrust = 20.0f;
             }
         }
         
-        
+
+        for (int i = 0; i<1; i++) {
+            SKSpriteNode * wall = [SKSpriteNode spriteNodeWithImageNamed:@"wall.jpg"];
+            wall.position = CGPointMake(wall.size.width*9.5, wall.size.height*3.5+wall.size.height*i);
+            [self addChild:wall];
+            [self.walls addObject:wall];
         }
+
+        
+        //Initialize a player
+        self.player = [SKSpriteNode spriteNodeWithImageNamed:@"player.jpg"];
+        self.player.position = CGPointMake(self.player.size.width*1.5, self.frame.size.height*0.75f);
+        self.playerVel = CGPointMake(0.0f, 0.0f);
+        [self addChild:self.player];
+        
+//        NSLog(@"walls: %i",self.walls.count);
+    }
     return self;
 }
 
@@ -71,12 +86,16 @@ static const float vThrust = 20.0f;
     CGPoint location = [touch locationInNode:self];
     
     if (location.x <= 128) {
-        [self.player moveLeft];
+        self.movingLeft = YES;
+        self.movingRight = NO;
+//        self.player.position = CGPointMake(self.player.position.x - hThrust, self.player.position.y);
 
     }
     
     if (location.x > 128 && location.x <= 256) {
-        [self.player moveRight];
+        self.movingLeft = NO;
+        self.movingRight = YES;
+//        self.player.position = CGPointMake(self.player.position.x + hThrust, self.player.position.y);
     }
     
     if (location.x >= 284) {
