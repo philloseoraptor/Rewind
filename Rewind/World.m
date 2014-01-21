@@ -14,7 +14,7 @@ static const float g = 0.1f;
 
 -(id)initFromLevel:(NSString*)levelPath {
     if (self = [super init]) {
-        NSLog(@"world loaded");
+//        NSLog(@"world loaded");
         
         _tm = [[TileMap alloc] initWithFile:levelPath withTileSize:32 atOrigin:CGPointMake(0.0, 0.0)];
         
@@ -33,7 +33,7 @@ static const float g = 0.1f;
                 }
                 else if (character == 's') {
                     CGPoint pos = [_tm positionFromTile:CGPointMake(j, [_tm levelByLines].count-1-i)];
-                    NSLog(@"player (%f,%f)",pos.x,pos.y);
+//                    NSLog(@"player (%f,%f)",pos.x,pos.y);
                     self.player = [[Player alloc]initWithPosition:pos];
                     _player.position = pos;
                     [self addChild:_player];

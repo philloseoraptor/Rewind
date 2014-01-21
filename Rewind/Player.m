@@ -11,8 +11,8 @@
 @implementation Player
 
 static const float termVel = -5.0f;
-static const float xTermVel = 4.0f;
-static const float hThrust = 4.0f;
+static const float xTermVel = 3.0f;
+static const float hThrust = 1.0f;
 static const float vThrust = 17.0f;
 static const float f = 0.0f;
 float newXvel;
