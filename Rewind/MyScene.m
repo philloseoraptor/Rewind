@@ -11,17 +11,9 @@
 #import "Player.h"
 
 static const float g = 0.1f;
-static const float f = 0.0f;
-static const float termVel = -5.0f;
-static const float hThrust = 4.0f;
-static const float vThrust = 15.0f;
 
 @interface MyScene () <SKPhysicsContactDelegate>
 @property (nonatomic) Player * player;
-@property (nonatomic) CGPoint playerVel;
-@property (nonatomic) BOOL onGround;
-@property (nonatomic) BOOL movingLeft;
-@property (nonatomic) BOOL movingRight;
 @property (nonatomic) NSMutableArray * walls;
 @property (nonatomic) TileMap* tm;
 @end
@@ -50,7 +42,7 @@ static const float vThrust = 15.0f;
                     [self addChild:wall];
                     [self.walls addObject:wall];
                 }
-                else if (character == 'p') {
+                else if (character == 's') {
                     CGPoint pos = [_tm positionFromTile:CGPointMake(j, [_tm levelByLines].count-1-i)];
                     NSLog(@"player (%f,%f)",pos.x,pos.y);
                     self.player = [[Player alloc]initWithPosition:pos];
