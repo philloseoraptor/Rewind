@@ -141,34 +141,12 @@ static const float g = 0.1f;
 
 }
 
--(void)updatePlayerPosition:(Player*)player {
-//    NSLog(@"player: (%f,%f)",player.position.x,player.position.y);
-    CGPoint desPos = [player desirePositionWithGravity:g];
-//    NSLog(@"desPos:(%f,%f)",desPos.x,desPos.y);
-    player.temp.position = desPos;
-    NSArray *sTiles = [_tm getTilesAroundTile:[_tm tileFromPosition:player.temp.position]];
-    
-    
-    for (NSValue* val in sTiles){
-        CGPoint tile = [val CGPointValue];
-        CGPoint tilePos = [_tm positionFromTile:tile];
-        
-        for (SKSpriteNode* wall in _walls) {
-            if (wall.position.x == tilePos.x && wall.position.y == tilePos.y) {
-//                NSLog(@"collision!");
-                [player resolveCollisionWithWall:wall];
-            }
-        }
-    }
-    
-    player.position = player.temp.position;
-}
-
 - (void)didSimulatePhysics
 {
     [_world updatePlayerPosition:_world.player];
+    [_world childNodeWithName:@"//camera"].position = CGPointMake(_world.player.position.x-self.size.width/2, _world.player.position.y-self.size.height/2);
 //    NSLog(@"centering camera");
-//    [self centerOnNode: [self childNodeWithName: @"//camera"]];
+    [self centerOnNode: [self childNodeWithName: @"//camera"]];
 }
 
 - (void) centerOnNode: (SKNode *) node
