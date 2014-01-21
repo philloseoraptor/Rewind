@@ -1,10 +1,13 @@
-wwwwwwwwwwwwwwwwww
-w                w
-w                w
-w               gw
-w            wwwww
-w                w
-w      wwww      w
-w                w
-w s  w           w
-wwwwwwwwwwwwwwwwww
+w                            w
+w                            w
+w                            w
+w                            w
+w                            w
+w                            w
+w                            w
+w            wwww            w
+w                            w
+w      wwww                  w
+w                   w        w
+w s  w              w       gw
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwww
