@@ -18,4 +18,6 @@
 
 -(id)initFromLevel:(NSString*)levelPath;
 
+-(void)updatePlayerPosition:(Player*)player;
+
 @end

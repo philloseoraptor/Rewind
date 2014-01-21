@@ -12,7 +12,7 @@ static const float g = 0.1f;
 
 @implementation World
 
--(id)initWithLevel:(NSString*)levelPath {
+-(id)initFromLevel:(NSString*)levelPath {
     if (self = [super init]) {
         NSLog(@"world loaded");
         

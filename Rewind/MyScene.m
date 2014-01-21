@@ -9,6 +9,7 @@
 #import "MyScene.h"
 #import "TileMap.h"
 #import "Player.h"
+#import "World.h"
 
 static const float g = 0.1f;
 
@@ -16,6 +17,7 @@ static const float g = 0.1f;
 @property (nonatomic) Player * player;
 @property (nonatomic) NSMutableArray * walls;
 @property (nonatomic) TileMap* tm;
+@property (nonatomic) World* world;
 @end
 
 @implementation MyScene
@@ -24,34 +26,19 @@ static const float g = 0.1f;
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
         
+//        self.anchorPoint = CGPointMake (0.5,0.5);
+        
         NSString* L1path = [[NSBundle mainBundle] pathForResource:@"L1" ofType:@"txt"];
         
-        self.tm = [[TileMap alloc] initWithFile:L1path withTileSize:32 atOrigin:CGPointMake(0.0, 0.0)];
+        _world = [[World alloc]initFromLevel:L1path];
         
+        [self addChild:_world];
         
-        self.walls = [[NSMutableArray alloc]init];
+        SKNode* camera = [SKNode node];
         
-        for (int i = [_tm levelByLines].count-1; i>=0; i-=1) {
-            NSString* line = [_tm.levelByLines objectAtIndex:i];
-            for (int j = 0; j < line.length; j++) {
-                unichar character = [line characterAtIndex:j];
-//                NSLog(@"%c",character);
-                if (character == 'w') {
-                    SKSpriteNode* wall = [[SKSpriteNode alloc]initWithImageNamed:@"wall.jpg"];
-                    wall.position = [_tm positionFromTile:CGPointMake(j, [_tm levelByLines].count-1-i)];
-                    [self addChild:wall];
-                    [self.walls addObject:wall];
-                }
-                else if (character == 's') {
-                    CGPoint pos = [_tm positionFromTile:CGPointMake(j, [_tm levelByLines].count-1-i)];
-                    NSLog(@"player (%f,%f)",pos.x,pos.y);
-                    self.player = [[Player alloc]initWithPosition:pos];
-                    _player.position = pos;
-                    [self addChild:_player];
-                }
-            }
-        }
+        camera.name = @"camera";
         
+        [_world addChild:camera];
         
         NSLog(@"Size: %@", NSStringFromCGSize(size));
         
@@ -67,45 +54,89 @@ static const float g = 0.1f;
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     
     // 1 - Choose one of the touches to work with
-    UITouch * touch = [touches anyObject];
-    CGPoint location = [touch locationInNode:self];
+//    UITouch * touch = [touches anyObject];
     
-    if (location.x <= 128) {
-        [_player moveLeft];
-
-    }
+//    CGPoint location = [touch locationInNode:self];
+//    
+//    if (location.x <= 128) {
+//        [_world.player moveLeft];
+//
+//    }
+//    
+//    if (location.x > 128 && location.x <= 256) {
+//        [_world.player moveRight];
+//    }
+//    
+//    if (location.x >= 284) {
+//        [_world.player jump];
+//    }
     
-    if (location.x > 128 && location.x <= 256) {
-        [_player moveRight];
-    }
-    
-    if (location.x >= 284) {
-        [_player jump];
+    for (UITouch* touch in touches) {
+        CGPoint location = [touch locationInNode:self];
+        
+        if (location.x <= 128) {
+            [_world.player moveLeft];
+            
+        }
+        
+        if (location.x > 128 && location.x <= 256) {
+            [_world.player moveRight];
+        }
+        
+        if (location.x >= 284) {
+            [_world.player jump];
+        }
+        
     }
 }
 
 -(void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    UITouch * touch = [touches anyObject];
-    CGPoint location = [touch locationInNode:self];
+//    UITouch * touch = [touches anyObject];
+//    CGPoint location = [touch locationInNode:self];
+//    
+//    if (location.x <= 128) {
+//        [_world.player moveLeft];
+//    }
+//    
+//    if (location.x > 128 && location.x <= 256) {
+//        [_world.player moveRight];
+//    }
     
-    if (location.x <= 128) {
-        [_player moveLeft];
+    for (UITouch* touch in touches) {
+        CGPoint location = [touch locationInNode:self];
+        
+        if (location.x <= 128) {
+            [_world.player moveLeft];
+        }
+        
+        if (location.x > 128 && location.x <= 256) {
+            [_world.player moveRight];
+        }
     }
-    
-    if (location.x > 128 && location.x <= 256) {
-        [_player moveRight];    }
 }
 
 -(void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    UITouch * touch = [touches anyObject];
-    CGPoint location = [touch locationInNode:self];
+//    UITouch * touch = [touches anyObject];
+//    CGPoint location = [touch locationInNode:self];
+//    
+//    if (location.x <= 128) {
+//        [_world.player stop];
+//    }
+//    
+//    if (location.x > 128 && location.x <= 256) {
+//        [_world.player stop];
+//    }
     
-    if (location.x <= 128) {
-        [_player stop];
-    }
-    
-    if (location.x > 128 && location.x <= 256) {
-        [_player stop];
+    for (UITouch* touch in touches) {
+        CGPoint location = [touch locationInNode:self];
+        
+        if (location.x <= 128) {
+            [_world.player stop];
+        }
+        
+        if (location.x > 128 && location.x <= 256) {
+            [_world.player stop];
+        }
     }
 
 }
@@ -133,8 +164,21 @@ static const float g = 0.1f;
     player.position = player.temp.position;
 }
 
+- (void)didSimulatePhysics
+{
+    [_world updatePlayerPosition:_world.player];
+//    NSLog(@"centering camera");
+//    [self centerOnNode: [self childNodeWithName: @"//camera"]];
+}
+
+- (void) centerOnNode: (SKNode *) node
+{
+    CGPoint cameraPositionInScene = [node.scene convertPoint:node.position fromNode:node.parent];
+    node.parent.position = CGPointMake(node.parent.position.x - cameraPositionInScene.x,                                       node.parent.position.y - cameraPositionInScene.y);
+}
+
 -(void)update:(CFTimeInterval)currentTime {
-    [self updatePlayerPosition:self.player];
+//    [_world updatePlayerPosition:_world.player];
 }
 
 @end
