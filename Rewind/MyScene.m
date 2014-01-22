@@ -96,7 +96,10 @@
 - (void)didSimulatePhysics
 {
     [_world updatePlayerPosition:_world.player];
-    [_world childNodeWithName:@"//camera"].position = CGPointMake(_world.player.position.x-self.size.width/2, _world.player.position.y-self.size.height/2);
+//    [_world childNodeWithName:@"//camera"].position = CGPointMake(_world.player.position.x-self.size.width/2, _world.player.position.y-self.size.height/2);
+    
+    
+    [self updateCameraPosition:[_world childNodeWithName:@"//camera"]];
     [self centerOnNode: [self childNodeWithName: @"//camera"]];
 }
 
@@ -105,6 +108,46 @@
     CGPoint cameraPositionInScene = [node.scene convertPoint:node.position fromNode:node.parent];
     node.parent.position = CGPointMake(node.parent.position.x - cameraPositionInScene.x,
                                        node.parent.position.y - cameraPositionInScene.y);
+}
+
+-(void) updateCameraPosition:(SKNode*)camera {
+    
+    
+    float Rbound = _world.player.position.x - 1.5*_world.tm.TS-self.size.width/2;
+    float Lbound = _world.player.position.x + 1.5*_world.tm.TS-self.size.width/2;
+    float Ubound = _world.player.position.y - 0.5*_world.tm.TS-self.size.height/2;
+    float Dbound = _world.player.position.y + 0.5*_world.tm.TS-self.size.height/2;
+    
+    if (_world.player.yVel == 0) {
+        if (camera.position.y < Dbound) {
+            camera.position = CGPointMake(camera.position.x, camera.position.y + 0.02*(Dbound-camera.position.y));
+        }
+    }
+    
+    if (_world.player.xVel == 0) {
+        float midscreenX = _world.player.position.x - self.size.width/2;
+        if (camera.position.x < midscreenX) {
+            camera.position = CGPointMake(camera.position.x + 0.02*(midscreenX-camera.position.x), camera.position.y);
+        }
+        else if (camera.position.x > midscreenX) {
+            camera.position = CGPointMake(camera.position.x - 0.02*(camera.position.x-midscreenX), camera.position.y);
+        }
+    }
+    
+    if (camera.position.x < Rbound) {
+        camera.position = CGPointMake(camera.position.x + 0.05*(Rbound-camera.position.x), camera.position.y);
+    }
+    if (camera.position.x > Lbound) {
+        camera.position = CGPointMake(camera.position.x - 0.05*(camera.position.x-Lbound), camera.position.y);
+    }
+    
+    if (camera.position.y < Ubound || _world.player.yVel < 0) {
+        camera.position = CGPointMake(camera.position.x, camera.position.y + 0.01*(Ubound-camera.position.y));
+    }
+    if (camera.position.y > Dbound) {
+        camera.position = CGPointMake(camera.position.x, camera.position.y - 0.01*(camera.position.y-Dbound));
+    }
+    
 }
 
 -(void)update:(CFTimeInterval)currentTime {
