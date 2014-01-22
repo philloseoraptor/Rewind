@@ -21,5 +21,6 @@
 -(void)stop;
 -(CGPoint)desirePositionWithGravity:(float) gravity;
 -(void)resolveCollisionWithWall:(SKSpriteNode*)object;
+-(BOOL)didPlayerReachGoal:(SKSpriteNode*)goal;
 
 @end

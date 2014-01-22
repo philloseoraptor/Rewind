@@ -15,6 +15,16 @@ static const float g = 0.02f;
 -(id)initFromLevel:(NSString*)levelPath {
     if (self = [super init]) {
 //        NSLog(@"world loaded");
+        _atGoal = NO;
+        NSString* goalPath = @"NONE";
+        
+        if ([levelPath isEqualToString:[[NSBundle mainBundle] pathForResource:@"L1" ofType:@"txt"]]) {
+            goalPath = [[NSBundle mainBundle] pathForResource:@"L2" ofType:@"txt"];
+        }
+        
+        if ([levelPath isEqualToString:[[NSBundle mainBundle] pathForResource:@"L2" ofType:@"txt"]]) {
+            goalPath = [[NSBundle mainBundle] pathForResource:@"L1" ofType:@"txt"];
+        }
         
         _tm = [[TileMap alloc] initWithFile:levelPath withTileSize:32 atOrigin:CGPointMake(0.0, 0.0)];
         
@@ -22,34 +32,40 @@ static const float g = 0.02f;
         
         for (int i = [_tm levelByLines].count-1; i>=0; i-=1) {
             NSString* line = [_tm.levelByLines objectAtIndex:i];
+            
             for (int j = 0; j < line.length; j++) {
                 unichar character = [line characterAtIndex:j];
-                //                NSLog(@"%c",character);
+                CGPoint pos = [_tm positionFromTile:CGPointMake(j, [_tm levelByLines].count-1-i)];
+                
                 if (character == 'w') {
                     SKSpriteNode* wall = [[SKSpriteNode alloc]initWithImageNamed:@"wall.jpg"];
-                    wall.position = [_tm positionFromTile:CGPointMake(j, [_tm levelByLines].count-1-i)];
+                    wall.position = pos;
                     [self addChild:wall];
                     [self.walls addObject:wall];
                 }
                 else if (character == 's') {
-                    CGPoint pos = [_tm positionFromTile:CGPointMake(j, [_tm levelByLines].count-1-i)];
-//                    NSLog(@"player (%f,%f)",pos.x,pos.y);
                     self.player = [[Player alloc]initWithPosition:pos];
                     _player.position = pos;
                     [self addChild:_player];
                 }
+                else if (character == 'g') {
+                    Goal* goal = [[Goal alloc]initWithPosition:pos withPathTo:goalPath];
+                    NSLog(@"goal position: (%f, %f)", goal.position.x,goal.position.y);
+                    _goal = goal;
+                    [self addChild:goal];
+
+                }
             }
         }
         
+//        NSLog(@"number of goals: %i", _levelGoals.count);
     }
     
     return self;
 }
 
 -(void)updatePlayerPosition:(Player*)player {
-    //    NSLog(@"player: (%f,%f)",player.position.x,player.position.y);
     CGPoint desPos = [self.player desirePositionWithGravity:g];
-    //    NSLog(@"desPos:(%f,%f)",desPos.x,desPos.y);
     player.temp.position = desPos;
     NSArray *sTiles = [_tm getTilesAroundTile:[_tm tileFromPosition:player.temp.position]];
     
@@ -60,10 +76,16 @@ static const float g = 0.02f;
         
         for (SKSpriteNode* wall in _walls) {
             if (wall.position.x == tilePos.x && wall.position.y == tilePos.y) {
-                //                NSLog(@"collision!");
                 [player resolveCollisionWithWall:wall];
             }
         }
+        
+        if (_goal.position.x == tilePos.x && _goal.position.y == tilePos.y) {
+            if ([_player didPlayerReachGoal:_goal]) {
+                _atGoal = YES;
+            }
+        }
+        
     }
     
     player.position = player.temp.position;

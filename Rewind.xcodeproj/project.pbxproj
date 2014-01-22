@@ -29,6 +29,9 @@
 		5A35A576186E025500A9E223 /* RewindTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A35A575186E025500A9E223 /* RewindTests.m */; };
 		5A35A581186E05A100A9E223 /* player.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5A35A580186E05A100A9E223 /* player.jpg */; };
 		5A35A585186E0A6400A9E223 /* wall.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5A35A584186E0A6400A9E223 /* wall.jpg */; };
+		5A668C3418902BFB003F6324 /* Goal.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A668C3318902BFB003F6324 /* Goal.m */; };
+		5A668C3618902EF7003F6324 /* L2.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5A668C3518902EF7003F6324 /* L2.txt */; };
+		5A668C3A18903A19003F6324 /* goal.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5A668C3918903A19003F6324 /* goal.tif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +76,10 @@
 		5A35A575186E025500A9E223 /* RewindTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RewindTests.m; sourceTree = "<group>"; };
 		5A35A580186E05A100A9E223 /* player.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = player.jpg; sourceTree = "<group>"; };
 		5A35A584186E0A6400A9E223 /* wall.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wall.jpg; sourceTree = "<group>"; };
+		5A668C3218902BFB003F6324 /* Goal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Goal.h; sourceTree = "<group>"; };
+		5A668C3318902BFB003F6324 /* Goal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Goal.m; sourceTree = "<group>"; };
+		5A668C3518902EF7003F6324 /* L2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = L2.txt; sourceTree = "<group>"; };
+		5A668C3918903A19003F6324 /* goal.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = goal.tif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +151,8 @@
 				5A35A55E186E025500A9E223 /* MyScene.m */,
 				5A1A14481888F21000E162E7 /* World.h */,
 				5A1A14491888F21000E162E7 /* World.m */,
+				5A668C3218902BFB003F6324 /* Goal.h */,
+				5A668C3318902BFB003F6324 /* Goal.m */,
 				5A1A1445188830E900E162E7 /* Player.h */,
 				5A1A1446188830E900E162E7 /* Player.m */,
 				5A1A14401887687E00E162E7 /* TileMap.h */,
@@ -188,7 +197,9 @@
 			children = (
 				5A35A580186E05A100A9E223 /* player.jpg */,
 				5A35A584186E0A6400A9E223 /* wall.jpg */,
+				5A668C3918903A19003F6324 /* goal.tif */,
 				5A1A1443188769FB00E162E7 /* L1.txt */,
+				5A668C3518902EF7003F6324 /* L2.txt */,
 			);
 			path = RewindAssets;
 			sourceTree = "<group>";
@@ -271,7 +282,9 @@
 			files = (
 				5A35A550186E025500A9E223 /* InfoPlist.strings in Resources */,
 				5A35A585186E0A6400A9E223 /* wall.jpg in Resources */,
+				5A668C3618902EF7003F6324 /* L2.txt in Resources */,
 				5A35A581186E05A100A9E223 /* player.jpg in Resources */,
+				5A668C3A18903A19003F6324 /* goal.tif in Resources */,
 				5A1A1444188769FB00E162E7 /* L1.txt in Resources */,
 				5A35A563186E025500A9E223 /* Images.xcassets in Resources */,
 				5A35A559186E025500A9E223 /* Main.storyboard in Resources */,
@@ -297,6 +310,7 @@
 				5A1A144A1888F21000E162E7 /* World.m in Sources */,
 				5A35A55C186E025500A9E223 /* ViewController.m in Sources */,
 				5A1A14421887687E00E162E7 /* TileMap.m in Sources */,
+				5A668C3418902BFB003F6324 /* Goal.m in Sources */,
 				5A35A556186E025500A9E223 /* AppDelegate.m in Sources */,
 				5A1A1447188830E900E162E7 /* Player.m in Sources */,
 				5A35A552186E025500A9E223 /* main.m in Sources */,

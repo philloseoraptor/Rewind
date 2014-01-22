@@ -21,9 +21,9 @@
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
         
-        NSString* L1path = [[NSBundle mainBundle] pathForResource:@"L1" ofType:@"txt"];
+        NSString* Lpath = [[NSBundle mainBundle] pathForResource:@"L1" ofType:@"txt"];
         
-        _world = [[World alloc]initFromLevel:L1path];
+        _world = [[World alloc]initFromLevel:Lpath];
         
         [self addChild:_world];
         
@@ -96,12 +96,26 @@
 - (void)didSimulatePhysics
 {
     [_world updatePlayerPosition:_world.player];
-//    [_world childNodeWithName:@"//camera"].position = CGPointMake(_world.player.position.x-self.size.width/2, _world.player.position.y-self.size.height/2);
-    
     
     [self updateCameraPosition:[_world childNodeWithName:@"//camera"]];
     [self centerOnNode: [self childNodeWithName: @"//camera"]];
+    
+    if (_world.atGoal) {
+        NSString* newLPath = _world.goal.toPath;
+        [_world removeFromParent];
+        _world = [[World alloc]initFromLevel:newLPath];
+        [self addChild:_world];
+        SKNode* camera = [SKNode node];
+        
+        camera.name = @"camera";
+        
+        [_world addChild:camera];
+    }
 }
+
+
+
+
 
 - (void) centerOnNode: (SKNode *) node
 {
@@ -149,6 +163,10 @@
     }
     
 }
+
+
+
+
 
 -(void)update:(CFTimeInterval)currentTime {
 

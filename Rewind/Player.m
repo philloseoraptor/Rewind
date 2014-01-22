@@ -83,6 +83,15 @@ CGPoint desiredPosition;
     
 }
 
+-(BOOL)didPlayerReachGoal:(SKSpriteNode*)goal {
+    
+    if (CGRectIntersectsRect(_temp.frame, goal.frame)) {
+        return YES;
+    }
+    
+    return NO;
+}
+
 -(void)resolveCollisionWithWall:(SKSpriteNode *)wall {
     
 //    _temp.position = desiredPosition;
