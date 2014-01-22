@@ -98,7 +98,6 @@ CGPoint desiredPosition;
 
 -(void)resolveCollisionWithWall:(SKSpriteNode *)wall {
     
-//    _temp.position = desiredPosition;
     
     if (CGRectIntersectsRect(_temp.frame, wall.frame)) {
       

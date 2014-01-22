@@ -106,9 +106,7 @@
         _world = [[World alloc]initFromLevel:newLPath];
         [self addChild:_world];
         SKNode* camera = [SKNode node];
-        
         camera.name = @"camera";
-        
         [_world addChild:camera];
     }
 }

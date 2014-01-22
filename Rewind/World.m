@@ -68,8 +68,6 @@ static const float g = 0.02f;
                 }
             }
         }
-        
-//        NSLog(@"number of goals: %i", _levelGoals.count);
     }
     
     return self;
