@@ -104,7 +104,7 @@ CGPoint desiredPosition;
         }
         
         else {
-            if (_temp.position.x >= wall.position.x) {
+            if (_temp.position.x > wall.position.x) {
                 _temp.position = CGPointMake(wall.position.x+(wall.size.width+_temp.size.width)/2, _temp.position.y);
                 _xVel = 0.0f;
             }
