@@ -27,6 +27,14 @@ static const float g = 0.02f;
         }
         
         if ([levelPath isEqualToString:[[NSBundle mainBundle] pathForResource:@"L3" ofType:@"txt"]]) {
+            goalPath = [[NSBundle mainBundle] pathForResource:@"L4" ofType:@"txt"];
+        }
+        
+        if ([levelPath isEqualToString:[[NSBundle mainBundle] pathForResource:@"L4" ofType:@"txt"]]) {
+            goalPath = [[NSBundle mainBundle] pathForResource:@"L5" ofType:@"txt"];
+        }
+        
+        if ([levelPath isEqualToString:[[NSBundle mainBundle] pathForResource:@"L5" ofType:@"txt"]]) {
             goalPath = [[NSBundle mainBundle] pathForResource:@"L1" ofType:@"txt"];
         }
         

@@ -33,6 +33,8 @@
 		5A668C3618902EF7003F6324 /* L2.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5A668C3518902EF7003F6324 /* L2.txt */; };
 		5A668C3A18903A19003F6324 /* goal.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5A668C3918903A19003F6324 /* goal.tif */; };
 		5A668C3C18903E7D003F6324 /* L3.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5A668C3B18903E7D003F6324 /* L3.txt */; };
+		5A668C3E18903FE7003F6324 /* L4.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5A668C3D18903FE7003F6324 /* L4.txt */; };
+		5A668C40189040F2003F6324 /* L5.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5A668C3F189040F2003F6324 /* L5.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +84,8 @@
 		5A668C3518902EF7003F6324 /* L2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = L2.txt; sourceTree = "<group>"; };
 		5A668C3918903A19003F6324 /* goal.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = goal.tif; sourceTree = "<group>"; };
 		5A668C3B18903E7D003F6324 /* L3.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = L3.txt; sourceTree = "<group>"; };
+		5A668C3D18903FE7003F6324 /* L4.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = L4.txt; sourceTree = "<group>"; };
+		5A668C3F189040F2003F6324 /* L5.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = L5.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,6 +207,8 @@
 				5A1A1443188769FB00E162E7 /* L1.txt */,
 				5A668C3518902EF7003F6324 /* L2.txt */,
 				5A668C3B18903E7D003F6324 /* L3.txt */,
+				5A668C3D18903FE7003F6324 /* L4.txt */,
+				5A668C3F189040F2003F6324 /* L5.txt */,
 			);
 			path = RewindAssets;
 			sourceTree = "<group>";
@@ -283,6 +289,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A668C3E18903FE7003F6324 /* L4.txt in Resources */,
 				5A35A550186E025500A9E223 /* InfoPlist.strings in Resources */,
 				5A35A585186E0A6400A9E223 /* wall.jpg in Resources */,
 				5A668C3618902EF7003F6324 /* L2.txt in Resources */,
@@ -291,6 +298,7 @@
 				5A668C3A18903A19003F6324 /* goal.tif in Resources */,
 				5A1A1444188769FB00E162E7 /* L1.txt in Resources */,
 				5A35A563186E025500A9E223 /* Images.xcassets in Resources */,
+				5A668C40189040F2003F6324 /* L5.txt in Resources */,
 				5A35A559186E025500A9E223 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

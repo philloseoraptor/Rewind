@@ -12,7 +12,7 @@
 
 static const float termVel = -8.0f;
 static const float xTermVel = 3.0f;
-static const float hThrust = 1.0f;
+static const float hThrust = 3.0f;
 static const float vThrust = 6.0f;
 static const float f = 0.0f;
 float newXvel;
@@ -45,15 +45,19 @@ CGPoint desiredPosition;
 }
 
 -(void)moveLeft {
-    movingL = YES;
-    movingR = NO;
-    self.position = CGPointMake(self.position.x - hThrust, self.position.y);
+    if (!movingL) {
+        movingL = YES;
+        movingR = NO;
+        self.position = CGPointMake(self.position.x - hThrust, self.position.y);
+    }
 }
 
 -(void)moveRight {
-    movingR = YES;
-    movingL = NO;
-    self.position = CGPointMake(self.position.x + hThrust, self.position.y);
+    if (!movingR) {
+        movingR = YES;
+        movingL = NO;
+        self.position = CGPointMake(self.position.x + hThrust, self.position.y);
+    }
 }
 
 -(void)stop {
