@@ -32,6 +32,7 @@
 		5A668C3418902BFB003F6324 /* Goal.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A668C3318902BFB003F6324 /* Goal.m */; };
 		5A668C3618902EF7003F6324 /* L2.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5A668C3518902EF7003F6324 /* L2.txt */; };
 		5A668C3A18903A19003F6324 /* goal.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5A668C3918903A19003F6324 /* goal.tif */; };
+		5A668C3C18903E7D003F6324 /* L3.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5A668C3B18903E7D003F6324 /* L3.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 		5A668C3318902BFB003F6324 /* Goal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Goal.m; sourceTree = "<group>"; };
 		5A668C3518902EF7003F6324 /* L2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = L2.txt; sourceTree = "<group>"; };
 		5A668C3918903A19003F6324 /* goal.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = goal.tif; sourceTree = "<group>"; };
+		5A668C3B18903E7D003F6324 /* L3.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = L3.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,6 +202,7 @@
 				5A668C3918903A19003F6324 /* goal.tif */,
 				5A1A1443188769FB00E162E7 /* L1.txt */,
 				5A668C3518902EF7003F6324 /* L2.txt */,
+				5A668C3B18903E7D003F6324 /* L3.txt */,
 			);
 			path = RewindAssets;
 			sourceTree = "<group>";
@@ -284,6 +287,7 @@
 				5A35A585186E0A6400A9E223 /* wall.jpg in Resources */,
 				5A668C3618902EF7003F6324 /* L2.txt in Resources */,
 				5A35A581186E05A100A9E223 /* player.jpg in Resources */,
+				5A668C3C18903E7D003F6324 /* L3.txt in Resources */,
 				5A668C3A18903A19003F6324 /* goal.tif in Resources */,
 				5A1A1444188769FB00E162E7 /* L1.txt in Resources */,
 				5A35A563186E025500A9E223 /* Images.xcassets in Resources */,

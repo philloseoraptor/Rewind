@@ -23,6 +23,10 @@ static const float g = 0.02f;
         }
         
         if ([levelPath isEqualToString:[[NSBundle mainBundle] pathForResource:@"L2" ofType:@"txt"]]) {
+            goalPath = [[NSBundle mainBundle] pathForResource:@"L3" ofType:@"txt"];
+        }
+        
+        if ([levelPath isEqualToString:[[NSBundle mainBundle] pathForResource:@"L3" ofType:@"txt"]]) {
             goalPath = [[NSBundle mainBundle] pathForResource:@"L1" ofType:@"txt"];
         }
         
@@ -50,7 +54,6 @@ static const float g = 0.02f;
                 }
                 else if (character == 'g') {
                     Goal* goal = [[Goal alloc]initWithPosition:pos withPathTo:goalPath];
-                    NSLog(@"goal position: (%f, %f)", goal.position.x,goal.position.y);
                     _goal = goal;
                     [self addChild:goal];
 
