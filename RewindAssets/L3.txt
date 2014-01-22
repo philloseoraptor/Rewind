@@ -6,9 +6,9 @@ w                                                           w
 w                                                           w
 w                                                           w
 w                                                           w
-w s                                                         w
-wwwwwwwwwwwwwwwww                                          gw
-                w                              wwwwwwwwwwwwww
-                w          wwww                w
+w s                                                        gw
+wwwwwwwwwwwwwwwww                              wwwwwwwwwwwwww
+                w                              w
                 w          wwww           wwwwww
+                w          wwww           w
                 wwwwwwwwwwwwwwwwwwwwwwwwwww
