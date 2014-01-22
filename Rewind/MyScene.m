@@ -127,10 +127,10 @@
     if (_world.player.xVel == 0) {
         float midscreenX = _world.player.position.x - self.size.width/2;
         if (camera.position.x < midscreenX) {
-            camera.position = CGPointMake(camera.position.x + 0.02*(midscreenX-camera.position.x), camera.position.y);
+            camera.position = CGPointMake(camera.position.x + 0.01*(midscreenX-camera.position.x), camera.position.y);
         }
         else if (camera.position.x > midscreenX) {
-            camera.position = CGPointMake(camera.position.x - 0.02*(camera.position.x-midscreenX), camera.position.y);
+            camera.position = CGPointMake(camera.position.x - 0.01*(camera.position.x-midscreenX), camera.position.y);
         }
     }
     
