@@ -21,7 +21,7 @@
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
         
-        NSString* Lpath = [[NSBundle mainBundle] pathForResource:@"L5" ofType:@"txt"];
+        NSString* Lpath = [[NSBundle mainBundle] pathForResource:@"L1" ofType:@"txt"];
         
         _world = [[World alloc]initFromLevel:Lpath];
         
