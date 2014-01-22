@@ -8,7 +8,7 @@
 
 #import "World.h"
 
-static const float g = 0.1f;
+static const float g = 0.02f;
 
 @implementation World
 

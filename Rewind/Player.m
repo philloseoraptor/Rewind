@@ -10,10 +10,10 @@
 
 @implementation Player
 
-static const float termVel = -5.0f;
+static const float termVel = -8.0f;
 static const float xTermVel = 3.0f;
 static const float hThrust = 1.0f;
-static const float vThrust = 17.0f;
+static const float vThrust = 6.0f;
 static const float f = 0.0f;
 float newXvel;
 float newYvel;
@@ -94,12 +94,15 @@ CGPoint desiredPosition;
         if (intersection.size.height < intersection.size.width) {
             if (_temp.position.y >= wall.position.y) {
                 _temp.position = CGPointMake(_temp.position.x, wall.position.y+(wall.size.height + _temp.size.height)/2);
-                onGround = YES;
-                _yVel = 0.0f;
+                
+                if (_yVel <= 0) {
+                    _yVel = 0.0f;
+                    onGround = YES;
+                }
             }
             else {
                 _temp.position = CGPointMake(_temp.position.x, wall.position.y-(wall.size.height + _temp.size.height)/2);
-                _yVel = 0.0f;
+                if (_yVel >=0 ) _yVel = 0.0f;
             }
         }
         
