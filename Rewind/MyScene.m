@@ -7,20 +7,12 @@
 //
 
 #import "MyScene.h"
-
-static const float g = 0.05f;
-static const float f = 0.0f;
-static const float termVel = -5.0f;
-static const float hThrust = 5.0f;
-static const float vThrust = 10.0f;
+#import "TileMap.h"
+#import "Player.h"
+#import "World.h"
 
 @interface MyScene () <SKPhysicsContactDelegate>
-@property (nonatomic) SKSpriteNode * player;
-@property (nonatomic) CGPoint playerVel;
-@property (nonatomic) BOOL onGround;
-@property (nonatomic) BOOL movingLeft;
-@property (nonatomic) BOOL movingRight;
-@property (nonatomic) NSMutableArray * walls;
+@property (nonatomic) World* world;
 @end
 
 @implementation MyScene
@@ -29,44 +21,21 @@ static const float vThrust = 10.0f;
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
         
-        self.walls = [[NSMutableArray alloc]init];
+        NSString* Lpath = [[NSBundle mainBundle] pathForResource:@"L1" ofType:@"txt"];
         
-        self.onGround = NO;
+        _world = [[World alloc]initFromLevel:Lpath];
+        
+        [self addChild:_world];
+        
+        SKNode* camera = [SKNode node];
+        
+        camera.name = @"camera";
+        
+        [_world addChild:camera];
         
         NSLog(@"Size: %@", NSStringFromCGSize(size));
         
-        self.backgroundColor = [SKColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
-        
-        //Initialize walls
-        for (int i = 0; i<18; i++) {
-            SKSpriteNode * wall = [SKSpriteNode spriteNodeWithImageNamed:@"wall.jpg"];
-            wall.position = CGPointMake((wall.size.width*i)+wall.size.width/2, (wall.size.height * 2.5f));
-            [self addChild:wall];
-            [self.walls addObject:wall];
-        }
-        
-        for (int i = 0; i<7; i++) {
-            SKSpriteNode * wall2 = [SKSpriteNode spriteNodeWithImageNamed:@"wall.jpg"];
-            SKSpriteNode * wall3 = [SKSpriteNode spriteNodeWithImageNamed:@"wall.jpg"];
-            wall2.position = CGPointMake(wall2.size.width/2, (wall2.size.height * 3.5f)+wall2.size.height*i);
-            wall3.position = CGPointMake(size.width-wall3.size.width/2, (wall3.size.height * 3.5f)+wall3.size.height*i);
-            [self addChild:wall2];
-            [self.walls addObject:wall2];
-            [self addChild:wall3];
-            [self.walls addObject:wall3];
-        }
-        
-        SKSpriteNode * wall = [SKSpriteNode spriteNodeWithImageNamed:@"wall.jpg"];
-        wall.position = CGPointMake(wall.size.width*9.5, wall.size.height*3.5);
-        [self addChild:wall];
-        [self.walls addObject:wall];
-
-        
-        //Initialize a player
-        self.player = [SKSpriteNode spriteNodeWithImageNamed:@"player.jpg"];
-        self.player.position = CGPointMake(self.player.size.width*1.5, self.frame.size.height*0.75f);
-        self.playerVel = CGPointMake(0.0f, 0.0f);
-        [self addChild:self.player];
+        self.backgroundColor = [SKColor colorWithRed:0.15 green:0.15 blue:0.3 alpha:1.0];
         
     }
     return self;
@@ -74,160 +43,131 @@ static const float vThrust = 10.0f;
 
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     
-    // 1 - Choose one of the touches to work with
-    UITouch * touch = [touches anyObject];
-    CGPoint location = [touch locationInNode:self];
-    
-    if (location.x <= 128) {
-        self.movingLeft = YES;
-        self.movingRight = NO;
-        self.player.position = CGPointMake(self.player.position.x - hThrust, self.player.position.y);
-
-    }
-    
-    if (location.x > 128 && location.x <= 256) {
-        self.movingLeft = NO;
-        self.movingRight = YES;
-        self.player.position = CGPointMake(self.player.position.x + hThrust, self.player.position.y);
-    }
-    
-    if (location.x >= 284) {
-        if (self.onGround) {
-            self.player.position = CGPointMake(self.player.position.x, self.player.position.y + 1.0f);
-            self.playerVel = CGPointMake(self.playerVel.x, vThrust);
+    for (UITouch* touch in touches) {
+        CGPoint location = [touch locationInNode:self];
+        
+        if (location.x <= 128) {
+            [_world.player moveLeft];
+            
         }
+        
+        if (location.x > 128 && location.x <= 256) {
+            [_world.player moveRight];
+        }
+        
+        if (location.x >= 284) {
+            [_world.player jump];
+        }
+        
     }
 }
 
 -(void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    UITouch * touch = [touches anyObject];
-    CGPoint location = [touch locationInNode:self];
-    
-    if (location.x <= 128) {
-        if (!self.movingLeft) {
-            self.movingLeft = YES;
-            self.movingRight = NO;
+
+    for (UITouch* touch in touches) {
+        CGPoint location = [touch locationInNode:self];
+        
+        if (location.x <= 128) {
+            [_world.player moveLeft];
         }
-    }
-    
-    if (location.x > 128 && location.x <= 256) {
-        if (!self.movingRight) {
-            self.movingLeft = NO;
-            self.movingRight = YES;
+        
+        if (location.x > 128 && location.x <= 256) {
+            [_world.player moveRight];
         }
     }
 }
 
 -(void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    UITouch * touch = [touches anyObject];
-    CGPoint location = [touch locationInNode:self];
+
+    for (UITouch* touch in touches) {
+        CGPoint location = [touch locationInNode:self];
+        
+        if (location.x <= 128) {
+            [_world.player stop];
+        }
+        
+        if (location.x > 128 && location.x <= 256) {
+            [_world.player stop];
+        }
+    }
+
+}
+
+- (void)didSimulatePhysics
+{
+    [_world updatePlayerPosition:_world.player];
     
-    if (location.x <= 128) {
-        self.movingLeft = NO;
-        self.movingRight = NO;
+    [self updateCameraPosition:[_world childNodeWithName:@"//camera"]];
+    [self centerOnNode: [self childNodeWithName: @"//camera"]];
+    
+    if (_world.atGoal) {
+        NSString* newLPath = _world.goal.toPath;
+        [_world removeFromParent];
+        _world = [[World alloc]initFromLevel:newLPath];
+        [self addChild:_world];
+        SKNode* camera = [SKNode node];
+        camera.name = @"camera";
+        [_world addChild:camera];
+    }
+}
+
+
+
+
+
+- (void) centerOnNode: (SKNode *) node
+{
+    CGPoint cameraPositionInScene = [node.scene convertPoint:node.position fromNode:node.parent];
+    node.parent.position = CGPointMake(node.parent.position.x - cameraPositionInScene.x,
+                                       node.parent.position.y - cameraPositionInScene.y);
+}
+
+-(void) updateCameraPosition:(SKNode*)camera {
+    
+    
+    float Rbound = _world.player.position.x - 1.5*_world.tm.TS-self.size.width/2;
+    float Lbound = _world.player.position.x + 1.5*_world.tm.TS-self.size.width/2;
+    float Ubound = _world.player.position.y - 0.5*_world.tm.TS-self.size.height/2;
+    float Dbound = _world.player.position.y + 0.5*_world.tm.TS-self.size.height/2;
+    
+    if (_world.player.yVel == 0) {
+        if (camera.position.y < Dbound) {
+            camera.position = CGPointMake(camera.position.x, camera.position.y + 0.02*(Dbound-camera.position.y));
+        }
     }
     
-    if (location.x > 128 && location.x <= 256) {
-        self.movingLeft = NO;
-        self.movingRight = NO;
+    if (_world.player.xVel == 0) {
+        float midscreenX = _world.player.position.x - self.size.width/2;
+        if (camera.position.x < midscreenX) {
+            camera.position = CGPointMake(camera.position.x + 0.01*(midscreenX-camera.position.x), camera.position.y);
+        }
+        else if (camera.position.x > midscreenX) {
+            camera.position = CGPointMake(camera.position.x - 0.01*(camera.position.x-midscreenX), camera.position.y);
+        }
     }
-
-}
-
--(BOOL)isBody:(SKSpriteNode *)a above:(SKSpriteNode *)b {
-    if (ABS(a.position.x - b.position.x) < (a.size.width+b.size.width)/2 &&
-        a.position.y >= b.position.y + (b.size.height+a.size.height)/2) {
-        return YES;
+    
+    if (camera.position.x < Rbound) {
+        camera.position = CGPointMake(camera.position.x + 0.05*(Rbound-camera.position.x), camera.position.y);
     }
-    return NO;
-}
-
--(BOOL)isBody:(SKSpriteNode *)a levelWith:(SKSpriteNode *)b {
-    if (ABS(a.position.y - b.position.y) < (a.size.height+b.size.height)/2) {
-        return YES;
+    if (camera.position.x > Lbound) {
+        camera.position = CGPointMake(camera.position.x - 0.05*(camera.position.x-Lbound), camera.position.y);
     }
-    return NO;
-}
-
--(void)updatePlayerPosition:(SKSpriteNode*)player {
+    
+    if (camera.position.y < Ubound || _world.player.yVel < 0) {
+        camera.position = CGPointMake(camera.position.x, camera.position.y + 0.01*(Ubound-camera.position.y));
+    }
+    if (camera.position.y > Dbound) {
+        camera.position = CGPointMake(camera.position.x, camera.position.y - 0.01*(camera.position.y-Dbound));
+    }
     
 }
+
+
+
+
 
 -(void)update:(CFTimeInterval)currentTime {
-    self.onGround = NO;
-    //update x
-    float newXvel;
-    if (self.movingLeft) {
-        newXvel = -hThrust;
-    }
-    if (self.movingRight) {
-        newXvel = hThrust;
-    }
-    if (!self.movingLeft && !self.movingRight) {
-        newXvel = f*self.playerVel.x;
-    }
-    
-    self.playerVel = CGPointMake(newXvel, self.playerVel.y);
-    
-    for (int j = 0; j<self.walls.count; j++) {
-        
-        SKSpriteNode * wall = [self.walls objectAtIndex:j];
-        
-        if ([self isBody:self.player levelWith:wall]) {
-            
-            //check if player is to left of wall
-            if (self.player.position.x < wall.position.x) {
-                
-                //check if overshoot
-                if (self.player.position.x + newXvel > wall.position.x - (self.player.size.width + wall.size.width)/2) {
-                    self.player.position = CGPointMake(wall.position.x - (self.player.size.width + wall.size.width)/2, self.player.position.y);
-                    self.playerVel = CGPointMake(0.0f, self.playerVel.y);
-                }
-            }
-            //check if player is to right of wall
-            else if (self.player.position.x > wall.position.x) {
-                
-                //check if overshoot
-                if (self.player.position.x + newXvel < wall.position.x + (self.player.size.width + wall.size.width)/2) {
-                    self.player.position = CGPointMake(wall.position.x + (self.player.size.width + wall.size.width)/2, self.player.position.y);
-                    self.playerVel = CGPointMake(0.0f, self.playerVel.y);
-                }
-            }
-            
-            else {
-                self.player.position = CGPointMake(self.player.position.x + newXvel, self.player.position.y);
-            }
-        }
-    }
-    
-    
-    self.player.position = CGPointMake(self.player.position.x + newXvel, self.player.position.y);
-    
-    //update y
-    float newYvel = g*termVel + (1-g)*self.playerVel.y;
-    self.playerVel = CGPointMake(self.playerVel.x, newYvel);
-    
-    for (int j = 0; j<self.walls.count; j++) {
-        
-        SKSpriteNode * wall = [self.walls objectAtIndex:j];
-        
-        //check if player is above  wall section
-        if ([self isBody:self.player above:wall]) {
-            
-            //check if player will overshoot a wall, then correct for overshoot.
-            if (self.player.position.y + newYvel <= self.player.size.height/2 + wall.position.y + wall.size.height/2) {
-                self.player.position = CGPointMake(self.player.position.x, wall.position.y + wall.size.height/2 +self.player.size.height/2);
-                self.onGround = YES;
-                self.playerVel = CGPointMake(self.playerVel.x, 0.0f);
-            }
-            
-            //if player isn't going to land, just have the player fall
-            else {
-                self.player.position = CGPointMake(self.player.position.x, self.player.position.y+newYvel);
-            }
-        }
-    }
-    
+
 }
 
 @end
