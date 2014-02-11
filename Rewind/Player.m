@@ -48,7 +48,7 @@ CGPoint desiredPosition;
     if (!movingL) {
         movingL = YES;
         movingR = NO;
-        self.position = CGPointMake(self.position.x - hThrust, self.position.y);
+//        self.position = CGPointMake(self.position.x - hThrust, self.position.y);
     }
 }
 
@@ -56,7 +56,7 @@ CGPoint desiredPosition;
     if (!movingR) {
         movingR = YES;
         movingL = NO;
-        self.position = CGPointMake(self.position.x + hThrust, self.position.y);
+//        self.position = CGPointMake(self.position.x + hThrust, self.position.y);
     }
 }
 

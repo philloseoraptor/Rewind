@@ -18,6 +18,7 @@
 @property (nonatomic) NSMutableArray* walls;
 @property (nonatomic) Goal* goal;
 @property (nonatomic) BOOL atGoal;
+@property (nonatomic) NSMutableArray* ghosts;
 
 -(id)initFromLevel:(NSString*)levelPath;
 
