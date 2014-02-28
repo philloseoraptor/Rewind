@@ -22,6 +22,7 @@
 @property (nonatomic) NSMutableArray* ghosts;
 @property (nonatomic) NSMutableArray* ghostPaths;
 @property (nonatomic) int currentFrame;
+@property (nonatomic) CGPoint startPos;
 
 -(id)initFromLevel:(NSString*)levelPath;
 

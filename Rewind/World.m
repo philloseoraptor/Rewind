@@ -57,6 +57,7 @@ static const float g = 0.02f;
                 }
                 else if (character == 's') {
                     self.player = [[Player alloc]initWithPosition:pos];
+                    _startPos = pos;
                     _player.position = pos;
                     [self addChild:_player];
                 }
@@ -117,6 +118,24 @@ static const float g = 0.02f;
     [self updatePlayerPosition:_player];
     [self updateGhosts];
     _currentFrame += 1;
+}
+
+-(void)simpleRewind {
+    
+    _player.position = _startPos;
+    _player.xVel = 0.0f;
+    _player.yVel = 0.0f;
+    
+    for (Ghost* ghost in _ghosts) {
+        [ghost updateGhostToFrame:0];
+    }
+    
+    Ghost* newGhost = [[Ghost alloc]initWithPath:[_ghostPaths lastObject]];
+    NSMutableArray* newPath = [[NSMutableArray alloc]init];
+    
+    [_ghosts addObject:newGhost];
+    [_ghostPaths addObject:newPath];
+    
 }
 
 @end

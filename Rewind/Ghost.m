@@ -21,7 +21,14 @@
 }
 
 -(void)updateGhostToFrame:(int)frame {
-    self.position = [[_path objectAtIndex:frame]CGPointValue];
+    
+    if (frame < _path.count) {
+        self.position = [[_path objectAtIndex:frame]CGPointValue];
+    }
+    
+    else {
+        self.position = [[_path lastObject]CGPointValue];
+    }
 }
 
 @end
