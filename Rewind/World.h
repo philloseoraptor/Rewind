@@ -10,6 +10,7 @@
 #import "TileMap.h"
 #import "Player.h"
 #import "Goal.h"
+#import "Ghost.h"
 
 @interface World : SKNode
 
@@ -19,9 +20,16 @@
 @property (nonatomic) Goal* goal;
 @property (nonatomic) BOOL atGoal;
 @property (nonatomic) NSMutableArray* ghosts;
+@property (nonatomic) NSMutableArray* ghostPaths;
+@property (nonatomic) int currentFrame;
 
 -(id)initFromLevel:(NSString*)levelPath;
 
 -(void)updatePlayerPosition:(Player*)player;
+
+-(void)updateGhosts;
+
+-(void)updateWorld;
+
 
 @end

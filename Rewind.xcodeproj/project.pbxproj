@@ -11,6 +11,7 @@
 		5A1A1444188769FB00E162E7 /* L1.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5A1A1443188769FB00E162E7 /* L1.txt */; };
 		5A1A1447188830E900E162E7 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1A1446188830E900E162E7 /* Player.m */; };
 		5A1A144A1888F21000E162E7 /* World.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1A14491888F21000E162E7 /* World.m */; };
+		5A278C6D18C14F6400A7DE0C /* Ghost.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A278C6C18C14F6400A7DE0C /* Ghost.m */; };
 		5A35A544186E025500A9E223 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A35A543186E025500A9E223 /* Foundation.framework */; };
 		5A35A546186E025500A9E223 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A35A545186E025500A9E223 /* CoreGraphics.framework */; };
 		5A35A548186E025500A9E223 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A35A547186E025500A9E223 /* UIKit.framework */; };
@@ -55,6 +56,8 @@
 		5A1A1446188830E900E162E7 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
 		5A1A14481888F21000E162E7 /* World.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = World.h; sourceTree = "<group>"; };
 		5A1A14491888F21000E162E7 /* World.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = World.m; sourceTree = "<group>"; };
+		5A278C6B18C14F6400A7DE0C /* Ghost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ghost.h; sourceTree = "<group>"; };
+		5A278C6C18C14F6400A7DE0C /* Ghost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Ghost.m; sourceTree = "<group>"; };
 		5A35A540186E025500A9E223 /* Rewind.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rewind.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A35A543186E025500A9E223 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5A35A545186E025500A9E223 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -161,6 +164,8 @@
 				5A668C3318902BFB003F6324 /* Goal.m */,
 				5A1A1445188830E900E162E7 /* Player.h */,
 				5A1A1446188830E900E162E7 /* Player.m */,
+				5A278C6B18C14F6400A7DE0C /* Ghost.h */,
+				5A278C6C18C14F6400A7DE0C /* Ghost.m */,
 				5A1A14401887687E00E162E7 /* TileMap.h */,
 				5A1A14411887687E00E162E7 /* TileMap.m */,
 				5A35A562186E025500A9E223 /* Images.xcassets */,
@@ -321,6 +326,7 @@
 				5A35A55F186E025500A9E223 /* MyScene.m in Sources */,
 				5A1A144A1888F21000E162E7 /* World.m in Sources */,
 				5A35A55C186E025500A9E223 /* ViewController.m in Sources */,
+				5A278C6D18C14F6400A7DE0C /* Ghost.m in Sources */,
 				5A1A14421887687E00E162E7 /* TileMap.m in Sources */,
 				5A668C3418902BFB003F6324 /* Goal.m in Sources */,
 				5A35A556186E025500A9E223 /* AppDelegate.m in Sources */,

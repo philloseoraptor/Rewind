@@ -68,6 +68,11 @@ static const float g = 0.02f;
                 }
             }
         }
+        
+        _ghosts = [[NSMutableArray alloc]init];
+        _ghostPaths = [[NSMutableArray alloc]init];
+        NSMutableArray* path0 = [[NSMutableArray alloc]init];
+        [_ghostPaths addObject:path0];
     }
     
     return self;
@@ -98,6 +103,20 @@ static const float g = 0.02f;
     }
     
     player.position = player.temp.position;
+    
+    [[_ghostPaths lastObject] addObject:[NSValue valueWithCGPoint:player.position]];
+}
+
+-(void)updateGhosts {
+    for (Ghost* ghost in _ghosts) {
+        [ghost updateGhostToFrame:_currentFrame];
+    }
+}
+
+-(void)updateWorld {
+    [self updatePlayerPosition:_player];
+    [self updateGhosts];
+    _currentFrame += 1;
 }
 
 @end

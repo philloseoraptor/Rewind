@@ -95,7 +95,7 @@
 
 - (void)didSimulatePhysics
 {
-    [_world updatePlayerPosition:_world.player];
+    [_world updateWorld];
     
     [self updateCameraPosition:[_world childNodeWithName:@"//camera"]];
     [self centerOnNode: [self childNodeWithName: @"//camera"]];
