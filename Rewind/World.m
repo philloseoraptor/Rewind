@@ -42,6 +42,14 @@ static const float g = 0.02f;
         
         _walls = [[NSMutableArray alloc]init];
         
+        _timeData = [[NSMutableArray alloc]initWithCapacity:1200];
+        for (int i = 0; i < _timeData.count; i++) {
+            NSMutableArray* frameData = [[NSMutableArray alloc]init];
+            NSMutableArray* ghostsInFrame = [[NSMutableArray alloc]init];
+            [frameData addObject:ghostsInFrame];
+            [_timeData insertObject:frameData atIndex:i];
+        }
+        
         for (int i = [_tm levelByLines].count-1; i>=0; i-=1) {
             NSString* line = [_tm.levelByLines objectAtIndex:i];
             
@@ -68,6 +76,8 @@ static const float g = 0.02f;
                 }
             }
         }
+        
+        _currentFrame = 0;
     }
     
     return self;
@@ -98,6 +108,14 @@ static const float g = 0.02f;
     }
     
     player.position = player.temp.position;
+}
+
+-(void)updateTimeData {
+    
+    [[[_timeData objectAtIndex:_currentFrame] objectAtIndex:0] addObject:[NSValue valueWithCGPoint:_player.position]];
+    
+    _currentFrame += _currentFrame;
+    
 }
 
 @end

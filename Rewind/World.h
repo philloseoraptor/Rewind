@@ -19,6 +19,8 @@
 @property (nonatomic) Goal* goal;
 @property (nonatomic) BOOL atGoal;
 @property (nonatomic) NSMutableArray* ghosts;
+@property (nonatomic) NSMutableArray* timeData;
+@property (nonatomic) int currentFrame;
 
 -(id)initFromLevel:(NSString*)levelPath;
 
