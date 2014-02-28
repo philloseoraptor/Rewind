@@ -83,6 +83,16 @@ static const float g = 0.02f;
     return self;
 }
 
+-(BOOL)isVal:(NSValue*)value inMutArray:(NSMutableArray*)array {
+    for (NSValue* val in array) {
+        if (![value isEqualToValue:value]) {
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
 -(void)updatePlayerPosition:(Player*)player {
     CGPoint desPos = [self.player desirePositionWithGravity:g];
     player.temp.position = desPos;
@@ -113,6 +123,16 @@ static const float g = 0.02f;
 -(void)updateTimeData {
     
     [[[_timeData objectAtIndex:_currentFrame] objectAtIndex:0] addObject:[NSValue valueWithCGPoint:_player.position]];
+    
+    if (_currentFrame > 0) {
+        if ([[[_timeData objectAtIndex:_currentFrame-1]objectAtIndex:0]count] > [[[_timeData objectAtIndex:_currentFrame]objectAtIndex:0]count]) {
+            for (NSValue* val in [[_timeData objectAtIndex:_currentFrame-1]objectAtIndex:0]) {
+                if (![self isVal:val inMutArray:[[_timeData objectAtIndex:_currentFrame]objectAtIndex:0]]) {
+                    <#statements#>
+                }
+            }
+        }
+    }
     
     _currentFrame += _currentFrame;
     
