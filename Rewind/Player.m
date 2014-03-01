@@ -138,7 +138,7 @@ CGPoint desiredPosition;
 -(void)resolveCollisionWithGhost:(Ghost*)ghost {
     
     
-    if (self.position.y >= ghost.position.y + (self.frame.size.height + ghost.frame.size.height)/2) {
+    if (self.position.y >= ghost.position.y+ghost.frame.size.height-4) {
         
         if (_temp.position.x >= (ghost.position.x-(ghost.size.width+_temp.size.width)/2) &&
             _temp.position.x <= (ghost.position.x+(ghost.size.width+_temp.size.width)/2)) {

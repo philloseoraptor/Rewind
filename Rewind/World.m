@@ -79,6 +79,33 @@ static const float g = 0.02f;
     return self;
 }
 
+-(BOOL)isPlayeronGhost:(Ghost*)ghost {
+    if (_player.position.x <= ghost.position.x+ghost.size.width &&
+        _player.position.x >= ghost.position.x-ghost.size.width &&
+        _player.position.y == ghost.position.y+ghost.size.height) {
+        return YES;
+    }
+    return NO;
+}
+
+-(void)updateGhosts {
+    for (Ghost* ghost in _ghosts) {
+        if (![self isPlayeronGhost:ghost]) {
+            [ghost updateGhostToFrame:_currentFrame];
+        }
+        else {
+            CGPoint oldPos = ghost.position;
+            [ghost updateGhostToFrame:_currentFrame];
+            CGPoint newPos = ghost.position;
+            CGPoint dif = CGPointMake(newPos.x-oldPos.x, newPos.y-oldPos.y);
+            
+            _player.position = CGPointMake(_player.position.x+dif.x, _player.position.y+dif.y);
+            _player.temp.position = _player.position;
+            
+        }
+    }
+}
+
 -(void)updatePlayerPosition:(Player*)player {
     CGPoint desPos = [self.player desirePositionWithGravity:g];
     
@@ -111,32 +138,6 @@ static const float g = 0.02f;
     player.position = player.temp.position;
     
     [[_ghostPaths lastObject] addObject:[NSValue valueWithCGPoint:player.position]];
-}
-
--(BOOL)isPlayeronGhost:(Ghost*)ghost {
-    if (_player.position.x <= ghost.position.x+ghost.size.width &&
-        _player.position.x >= ghost.position.x-ghost.size.width &&
-        _player.position.y == ghost.position.y+ghost.size.height) {
-        return YES;
-    }
-    return NO;
-}
-
--(void)updateGhosts {
-    for (Ghost* ghost in _ghosts) {
-        if (![self isPlayeronGhost:ghost]) {
-            [ghost updateGhostToFrame:_currentFrame];
-        }
-        else {
-            CGPoint oldPos = ghost.position;
-            [ghost updateGhostToFrame:_currentFrame];
-            CGPoint newPos = ghost.position;
-            CGPoint dif = CGPointMake(newPos.x-oldPos.x, newPos.y-oldPos.y);
-            
-            _player.position = CGPointMake(_player.position.x+dif.x, _player.position.y+dif.y);
-            
-        }
-    }
 }
 
 -(void)updateWorld {
