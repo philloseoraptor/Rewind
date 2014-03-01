@@ -7,6 +7,7 @@
 //
 
 #import "Ghost.h"
+#import "Player.h"
 
 @implementation Ghost
 

@@ -28,6 +28,8 @@
 
 -(void)updatePlayerPosition:(Player*)player;
 
+-(BOOL)isPlayeronGhost:(Ghost*)ghost;
+
 -(void)updateGhosts;
 
 -(void)updateWorld;
