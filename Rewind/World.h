@@ -32,5 +32,7 @@
 
 -(void)updateWorld;
 
+-(void)simpleRewind;
+
 
 @end

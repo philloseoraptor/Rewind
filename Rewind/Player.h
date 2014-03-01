@@ -7,6 +7,7 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "Ghost.h"
 
 @interface Player : SKSpriteNode
 
@@ -22,5 +23,6 @@
 -(CGPoint)desirePositionWithGravity:(float) gravity;
 -(void)resolveCollisionWithWall:(SKSpriteNode*)object;
 -(BOOL)didPlayerReachGoal:(SKSpriteNode*)goal;
+-(void)resolveCollisionWithGhost:(Ghost*)ghost;
 
 @end

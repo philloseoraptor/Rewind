@@ -18,6 +18,7 @@ static const float f = 0.0f;
 float newXvel;
 float newYvel;
 BOOL onGround;
+BOOL onGhost;
 BOOL movingL;
 BOOL movingR;
 CGPoint desiredPosition;
@@ -29,9 +30,10 @@ CGPoint desiredPosition;
         _xVel = 0.0;
         _yVel = 0.0;
         onGround = NO;
+        onGhost = NO;
         movingL = NO;
         movingR = NO;
-        _temp = self;
+        _temp = [[SKSpriteNode alloc] initWithImageNamed:@"player.jpg"];
         self.position = position;
     }
     
@@ -67,6 +69,7 @@ CGPoint desiredPosition;
 
 -(CGPoint)desirePositionWithGravity:(float)gravity {
     onGround = NO;
+    onGhost = NO;
     
     if (movingL) newXvel -= hThrust;
     if (movingR) newXvel += hThrust;
@@ -128,6 +131,25 @@ CGPoint desiredPosition;
                 _xVel = 0.0f;
             }
         }
+    }
+    
+}
+
+-(void)resolveCollisionWithGhost:(Ghost*)ghost {
+    
+    
+    if (self.position.y >= ghost.position.y + (self.frame.size.height + ghost.frame.size.height)/2) {
+        
+        if (_temp.position.x >= (ghost.position.x-(ghost.size.width+_temp.size.width)/2) &&
+            _temp.position.x <= (ghost.position.x+(ghost.size.width+_temp.size.width)/2)) {
+            if (_temp.position.y <= (ghost.position.y+(ghost.size.height+_temp.size.height)/2)) {
+                _temp.position = CGPointMake(_temp.position.x, ghost.position.y+(ghost.size.height + _temp.size.height)/2);
+                _yVel = 0.0f;
+                onGround = YES;
+                onGhost = YES;
+            }
+        }
+        
     }
     
 }

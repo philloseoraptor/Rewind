@@ -95,6 +95,9 @@
 
 - (void)didSimulatePhysics
 {
+    if (_world.currentFrame == 300) {
+        [_world simpleRewind];
+    }
     [_world updateWorld];
     
     [self updateCameraPosition:[_world childNodeWithName:@"//camera"]];

@@ -81,9 +81,10 @@ static const float g = 0.02f;
 
 -(void)updatePlayerPosition:(Player*)player {
     CGPoint desPos = [self.player desirePositionWithGravity:g];
-    player.temp.position = desPos;
-    NSArray *sTiles = [_tm getTilesAroundTile:[_tm tileFromPosition:player.temp.position]];
     
+    player.temp.position = desPos;
+    
+    NSArray *sTiles = [_tm getTilesAroundTile:[_tm tileFromPosition:player.temp.position]];
     
     for (NSValue* val in sTiles){
         CGPoint tile = [val CGPointValue];
@@ -103,6 +104,10 @@ static const float g = 0.02f;
         
     }
     
+    for (Ghost* ghost in _ghosts) {
+        [_player resolveCollisionWithGhost:ghost];
+    }
+    
     player.position = player.temp.position;
     
     [[_ghostPaths lastObject] addObject:[NSValue valueWithCGPoint:player.position]];
@@ -115,8 +120,10 @@ static const float g = 0.02f;
 }
 
 -(void)updateWorld {
-    [self updatePlayerPosition:_player];
+    
+//    NSLog(@"%i",_currentFrame);
     [self updateGhosts];
+    [self updatePlayerPosition:_player];
     _currentFrame += 1;
 }
 
@@ -133,8 +140,11 @@ static const float g = 0.02f;
     Ghost* newGhost = [[Ghost alloc]initWithPath:[_ghostPaths lastObject]];
     NSMutableArray* newPath = [[NSMutableArray alloc]init];
     
+    [self addChild:newGhost];
     [_ghosts addObject:newGhost];
     [_ghostPaths addObject:newPath];
+    
+    _currentFrame = 0;
     
 }
 
