@@ -27,7 +27,7 @@ static const float g = 0.02f;
         }
         
         if ([levelPath isEqualToString:[[NSBundle mainBundle] pathForResource:@"L3" ofType:@"txt"]]) {
-            goalPath = [[NSBundle mainBundle] pathForResource:@"L4" ofType:@"txt"];
+            goalPath = [[NSBundle mainBundle] pathForResource:@"L1" ofType:@"txt"];
         }
         
         if ([levelPath isEqualToString:[[NSBundle mainBundle] pathForResource:@"L4" ofType:@"txt"]]) {
@@ -70,10 +70,17 @@ static const float g = 0.02f;
             }
         }
         
+        _rewinding = NO;
+        _currentFrame = 0;
+        
         _ghosts = [[NSMutableArray alloc]init];
         _ghostPaths = [[NSMutableArray alloc]init];
         NSMutableArray* path0 = [[NSMutableArray alloc]init];
+        [path0 addObject:[NSNumber numberWithInt:_currentFrame]];
         [_ghostPaths addObject:path0];
+        
+        _pPath = [[NSMutableArray alloc]init];
+        
     }
     
     return self;
@@ -82,7 +89,8 @@ static const float g = 0.02f;
 -(BOOL)isPlayeronGhost:(Ghost*)ghost {
     if (_player.position.x <= ghost.position.x+ghost.size.width &&
         _player.position.x >= ghost.position.x-ghost.size.width &&
-        _player.position.y == ghost.position.y+ghost.size.height) {
+        _player.position.y <= ghost.position.y+ghost.size.height+0.1 &&
+        _player.position.y >= ghost.position.y+ghost.size.height-0.1) {
         return YES;
     }
     return NO;
@@ -93,13 +101,18 @@ static const float g = 0.02f;
         if (![self isPlayeronGhost:ghost]) {
             [ghost updateGhostToFrame:_currentFrame];
         }
-        else {
+        if ([self isPlayeronGhost:ghost]) {
             CGPoint oldPos = ghost.position;
-            [ghost updateGhostToFrame:_currentFrame];
-            CGPoint newPos = ghost.position;
+            int gFrame = _currentFrame;
+            if (_currentFrame >= ghost.path.count) {
+                gFrame = ghost.path.count-1;
+            }
+            CGPoint newPos = [[ghost.path objectAtIndex:gFrame]CGPointValue];
             CGPoint dif = CGPointMake(newPos.x-oldPos.x, newPos.y-oldPos.y);
             
             _player.position = CGPointMake(_player.position.x+dif.x, _player.position.y+dif.y);
+            [ghost updateGhostToFrame:_currentFrame];
+            
             _player.temp.position = _player.position;
             
         }
@@ -143,9 +156,79 @@ static const float g = 0.02f;
 -(void)updateWorld {
     
 //    NSLog(@"%i",_currentFrame);
-    [self updateGhosts];
-    [self updatePlayerPosition:_player];
-    _currentFrame += 1;
+    if (!_rewinding) {
+        if (_resuming) {
+            NSLog(@"RESUME");
+            int startFrame = [[[_ghostPaths lastObject] firstObject] integerValue];
+            
+            [[_ghostPaths lastObject]removeObjectAtIndex:0];
+            
+            Ghost* newGhost = [[Ghost alloc]initWithPath:[_ghostPaths lastObject] startFrame:startFrame];
+            NSMutableArray* newPath = [[NSMutableArray alloc]init];
+            [newPath addObject:[NSNumber numberWithInt:_currentFrame]];
+            
+            [self addChild:newGhost];
+            [_ghosts addObject:newGhost];
+            [_ghostPaths addObject:newPath];
+            if (_ghostPaths.count >= 5) {
+                [_ghostPaths removeObjectAtIndex:0];
+            }
+            NSMutableArray* newpPath = [[NSMutableArray alloc]init];
+            for (int i = 0; i < _currentFrame; i++) {
+                [newpPath addObject:[_pPath objectAtIndex:i]];
+            }
+            _pPath = newpPath;
+            _resuming = NO;
+        }
+        else {
+            [self updateGhosts];
+            [self updatePlayerPosition:_player];
+            [_pPath addObject:[NSValue valueWithCGPoint:_player.position]];
+            _currentFrame += 1;
+            _rwFrame = 2*_currentFrame;
+        }
+    }
+    
+    else if (_rewinding) {
+        if (_currentFrame > 0) {
+            _rwFrame -= 1;
+            int newFrame = (int)ceilf((float)_rwFrame/2);
+//            NSLog(@"%i", newFrame);
+            _currentFrame = newFrame;
+            
+            for (Ghost* ghost in _ghosts) {
+                [ghost updateGhostToFrame:_currentFrame];
+            }
+            
+            int playerFrame;
+            if (_currentFrame >= [_pPath count]) {
+                playerFrame = [_pPath count]-1;
+            }
+            else {
+                playerFrame = _currentFrame;
+            }
+            
+            _player.position = [[_pPath objectAtIndex:playerFrame]CGPointValue];
+            _player.xVel = 0.0f;
+            _player.yVel = 0.0f;
+        }
+    }
+    
+    NSLog(@"%i, %i", _currentFrame, _pPath.count);
+    
+}
+
+-(void)startRewind {
+    
+    _rewinding = YES;
+    NSLog(@"REWIND");
+    
+}
+
+-(void)endRewind {
+    
+    _rewinding = NO;
+    _resuming = YES;
 }
 
 -(void)simpleRewind {
@@ -158,14 +241,21 @@ static const float g = 0.02f;
         [ghost updateGhostToFrame:0];
     }
     
-    Ghost* newGhost = [[Ghost alloc]initWithPath:[_ghostPaths lastObject]];
+    int startFrame = [[[_ghostPaths lastObject] firstObject] integerValue];
+    
+    [[_ghostPaths lastObject]removeObjectAtIndex:0];
+    
+    _currentFrame = 0;
+    
+    Ghost* newGhost = [[Ghost alloc]initWithPath:[_ghostPaths lastObject] startFrame:startFrame];
     NSMutableArray* newPath = [[NSMutableArray alloc]init];
+    [newPath addObject:[NSNumber numberWithInt:_currentFrame]];
     
     [self addChild:newGhost];
     [_ghosts addObject:newGhost];
     [_ghostPaths addObject:newPath];
     
-    _currentFrame = 0;
+    
     
     NSLog(@"REWIND!");
     

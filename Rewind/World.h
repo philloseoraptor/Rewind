@@ -21,8 +21,12 @@
 @property (nonatomic) BOOL atGoal;
 @property (nonatomic) NSMutableArray* ghosts;
 @property (nonatomic) NSMutableArray* ghostPaths;
+@property (nonatomic) NSMutableArray* pPath;
 @property (nonatomic) int currentFrame;
+@property (nonatomic) int rwFrame;
 @property (nonatomic) CGPoint startPos;
+@property (nonatomic) BOOL rewinding;
+@property (nonatomic) BOOL resuming;
 
 -(id)initFromLevel:(NSString*)levelPath;
 
@@ -33,6 +37,10 @@
 -(void)updateGhosts;
 
 -(void)updateWorld;
+
+-(void)startRewind;
+
+-(void)endRewind;
 
 -(void)simpleRewind;
 

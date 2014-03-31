@@ -11,8 +11,9 @@
 @interface Ghost : SKSpriteNode
 
 @property (nonatomic) NSMutableArray* path;
+@property (nonatomic) int startFrame;
 
--(id)initWithPath:(NSMutableArray*)path;
+-(id)initWithPath:(NSMutableArray*)path startFrame:(int)startFrame;
 -(void)updateGhostToFrame:(int)frame;
 
 @end

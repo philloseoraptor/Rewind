@@ -142,11 +142,11 @@ CGPoint desiredPosition;
         
         if (_temp.position.x >= (ghost.position.x-(ghost.size.width+_temp.size.width)/2) &&
             _temp.position.x <= (ghost.position.x+(ghost.size.width+_temp.size.width)/2)) {
+            NSLog(@"%i",ghost.path.count);
             if (_temp.position.y <= (ghost.position.y+(ghost.size.height+_temp.size.height)/2)) {
                 _temp.position = CGPointMake(_temp.position.x, ghost.position.y+(ghost.size.height + _temp.size.height)/2);
                 _yVel = 0.0f;
                 onGround = YES;
-                onGhost = YES;
             }
         }
         

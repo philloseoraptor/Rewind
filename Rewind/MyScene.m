@@ -48,14 +48,17 @@
         
         if (location.x <= 128) {
             [_world.player moveLeft];
-            
         }
         
         if (location.x > 128 && location.x <= 256) {
             [_world.player moveRight];
         }
         
-        if (location.x >= 284) {
+        if (location.x > 256 && location.x <= 384) {
+            [_world startRewind];
+        }
+        
+        if (location.x > 384) {
             [_world.player jump];
         }
         
@@ -74,6 +77,10 @@
         if (location.x > 128 && location.x <= 256) {
             [_world.player moveRight];
         }
+        
+//        if (location.x > 256) {
+//            [_world.player stop];
+//        }
     }
 }
 
@@ -89,15 +96,19 @@
         if (location.x > 128 && location.x <= 256) {
             [_world.player stop];
         }
+        
+        if (location.x > 256 && location.x <= 384) {
+            [_world endRewind];
+        }
     }
 
 }
 
 - (void)didSimulatePhysics
 {
-    if (_world.currentFrame == 300) {
-        [_world simpleRewind];
-    }
+//    if (_world.currentFrame == 300) {
+//        [_world simpleRewind];
+//    }
     [_world updateWorld];
     
     [self updateCameraPosition:[_world childNodeWithName:@"//camera"]];
@@ -162,6 +173,9 @@
     if (camera.position.y > Dbound) {
         camera.position = CGPointMake(camera.position.x, camera.position.y - 0.01*(camera.position.y-Dbound));
     }
+    
+    
+    
     
 }
 
