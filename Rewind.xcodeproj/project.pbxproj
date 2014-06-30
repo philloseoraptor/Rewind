@@ -13,6 +13,10 @@
 		5A1A1447188830E900E162E7 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1A1446188830E900E162E7 /* Player.m */; };
 		5A1A144A1888F21000E162E7 /* World.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1A14491888F21000E162E7 /* World.m */; };
 		5A278C6D18C14F6400A7DE0C /* Ghost.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A278C6C18C14F6400A7DE0C /* Ghost.m */; };
+		5A33380B18EA095700155CDB /* LeftButton.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5A33380A18EA095700155CDB /* LeftButton.tif */; };
+		5A33380F18EA0A4A00155CDB /* JumpButton.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5A33380C18EA0A4A00155CDB /* JumpButton.tif */; };
+		5A33381018EA0A4A00155CDB /* RewindButton.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5A33380D18EA0A4A00155CDB /* RewindButton.tif */; };
+		5A33381118EA0A4A00155CDB /* RightButton.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5A33380E18EA0A4A00155CDB /* RightButton.tif */; };
 		5A35A544186E025500A9E223 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A35A543186E025500A9E223 /* Foundation.framework */; };
 		5A35A546186E025500A9E223 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A35A545186E025500A9E223 /* CoreGraphics.framework */; };
 		5A35A548186E025500A9E223 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A35A547186E025500A9E223 /* UIKit.framework */; };
@@ -60,6 +64,10 @@
 		5A1A14491888F21000E162E7 /* World.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = World.m; sourceTree = "<group>"; };
 		5A278C6B18C14F6400A7DE0C /* Ghost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ghost.h; sourceTree = "<group>"; };
 		5A278C6C18C14F6400A7DE0C /* Ghost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Ghost.m; sourceTree = "<group>"; };
+		5A33380A18EA095700155CDB /* LeftButton.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = LeftButton.tif; sourceTree = "<group>"; };
+		5A33380C18EA0A4A00155CDB /* JumpButton.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = JumpButton.tif; sourceTree = "<group>"; };
+		5A33380D18EA0A4A00155CDB /* RewindButton.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = RewindButton.tif; sourceTree = "<group>"; };
+		5A33380E18EA0A4A00155CDB /* RightButton.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = RightButton.tif; sourceTree = "<group>"; };
 		5A35A540186E025500A9E223 /* Rewind.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rewind.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A35A543186E025500A9E223 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5A35A545186E025500A9E223 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -212,6 +220,10 @@
 				5A19E59318E8D76B00CD194F /* ghost.tif */,
 				5A35A584186E0A6400A9E223 /* wall.jpg */,
 				5A668C3918903A19003F6324 /* goal.tif */,
+				5A33380A18EA095700155CDB /* LeftButton.tif */,
+				5A33380E18EA0A4A00155CDB /* RightButton.tif */,
+				5A33380D18EA0A4A00155CDB /* RewindButton.tif */,
+				5A33380C18EA0A4A00155CDB /* JumpButton.tif */,
 				5A1A1443188769FB00E162E7 /* L1.txt */,
 				5A668C3518902EF7003F6324 /* L2.txt */,
 				5A668C3B18903E7D003F6324 /* L3.txt */,
@@ -302,12 +314,16 @@
 				5A35A585186E0A6400A9E223 /* wall.jpg in Resources */,
 				5A668C3618902EF7003F6324 /* L2.txt in Resources */,
 				5A35A581186E05A100A9E223 /* player.jpg in Resources */,
+				5A33380F18EA0A4A00155CDB /* JumpButton.tif in Resources */,
 				5A668C3C18903E7D003F6324 /* L3.txt in Resources */,
 				5A668C3A18903A19003F6324 /* goal.tif in Resources */,
 				5A19E59418E8D76B00CD194F /* ghost.tif in Resources */,
 				5A1A1444188769FB00E162E7 /* L1.txt in Resources */,
+				5A33381118EA0A4A00155CDB /* RightButton.tif in Resources */,
 				5A35A563186E025500A9E223 /* Images.xcassets in Resources */,
+				5A33381018EA0A4A00155CDB /* RewindButton.tif in Resources */,
 				5A668C40189040F2003F6324 /* L5.txt in Resources */,
+				5A33380B18EA095700155CDB /* LeftButton.tif in Resources */,
 				5A35A559186E025500A9E223 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

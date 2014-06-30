@@ -40,6 +40,21 @@ static const float g = 0.02f;
         
         _tm = [[TileMap alloc] initWithFile:levelPath withTileSize:32 atOrigin:CGPointMake(0.0, 0.0)];
         
+        SKSpriteNode* lButton = [[SKSpriteNode alloc] initWithImageNamed:@"LeftButton.tif"];
+        SKSpriteNode* rButton = [[SKSpriteNode alloc] initWithImageNamed:@"RightButton.tif"];
+        SKSpriteNode* rewButton = [[SKSpriteNode alloc] initWithImageNamed:@"RewindButton.tif"];
+        SKSpriteNode* jButton = [[SKSpriteNode alloc] initWithImageNamed:@"JumpButton.tif"];
+        
+        lButton.name = @"lButton";
+        rButton.name = @"rButton";
+        rewButton.name = @"rewButton";
+        jButton.name = @"jButton";
+        
+        [self addChild:lButton];
+        [self addChild:rButton];
+        [self addChild:rewButton];
+        [self addChild:jButton];
+        
         _walls = [[NSMutableArray alloc]init];
         
         for (int i = [_tm levelByLines].count-1; i>=0; i-=1) {
@@ -89,7 +104,7 @@ static const float g = 0.02f;
 -(BOOL)isPlayeronGhost:(Ghost*)ghost {
     if (_player.position.x <= ghost.position.x+ghost.size.width &&
         _player.position.x >= ghost.position.x-ghost.size.width &&
-        _player.position.y <= ghost.position.y+ghost.size.height+0.1 &&
+        _player.position.y <= ghost.position.y+ghost.size.height+0.05 &&
         _player.position.y >= ghost.position.y+ghost.size.height-0.1) {
         return YES;
     }
@@ -170,9 +185,7 @@ static const float g = 0.02f;
             [self addChild:newGhost];
             [_ghosts addObject:newGhost];
             [_ghostPaths addObject:newPath];
-            if (_ghostPaths.count >= 5) {
-                [_ghostPaths removeObjectAtIndex:0];
-            }
+
             NSMutableArray* newpPath = [[NSMutableArray alloc]init];
             for (int i = 0; i < _currentFrame; i++) {
                 [newpPath addObject:[_pPath objectAtIndex:i]];
@@ -214,7 +227,7 @@ static const float g = 0.02f;
         }
     }
     
-    NSLog(@"%i, %i", _currentFrame, _pPath.count);
+//    NSLog(@"%i, %i", _currentFrame, _pPath.count);
     
 }
 

@@ -28,9 +28,7 @@
         [self addChild:_world];
         
         SKNode* camera = [SKNode node];
-        
         camera.name = @"camera";
-        
         [_world addChild:camera];
         
         NSLog(@"Size: %@", NSStringFromCGSize(size));
@@ -54,11 +52,11 @@
             [_world.player moveRight];
         }
         
-        if (location.x > 256 && location.x <= 384) {
+        if (location.x > 320 && location.x <= 448) {
             [_world startRewind];
         }
         
-        if (location.x > 384) {
+        if (location.x > 448) {
             [_world.player jump];
         }
         
@@ -68,6 +66,7 @@
 -(void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
 
     for (UITouch* touch in touches) {
+        CGPoint prevLoc = [touch previousLocationInNode:self];
         CGPoint location = [touch locationInNode:self];
         
         if (location.x <= 128) {
@@ -78,9 +77,18 @@
             [_world.player moveRight];
         }
         
-//        if (location.x > 256) {
-//            [_world.player stop];
-//        }
+        if (location.x > 256 && prevLoc.x <= 256) {
+            [_world.player stop];
+        }
+        
+        if (location.x <= 320 && prevLoc.x > 320 && prevLoc.x <= 448) {
+            [_world endRewind];
+        }
+        
+        if (location.x > 320 && location.x <= 448) {
+            [_world startRewind];
+        }
+        
     }
 }
 
@@ -88,16 +96,12 @@
 
     for (UITouch* touch in touches) {
         CGPoint location = [touch locationInNode:self];
-        
-        if (location.x <= 128) {
+
+        if (location.x <= 256) {
             [_world.player stop];
         }
         
-        if (location.x > 128 && location.x <= 256) {
-            [_world.player stop];
-        }
-        
-        if (location.x > 256 && location.x <= 384) {
+        if (location.x > 320 && location.x <= 448) {
             [_world endRewind];
         }
     }
@@ -174,7 +178,14 @@
         camera.position = CGPointMake(camera.position.x, camera.position.y - 0.01*(camera.position.y-Dbound));
     }
     
-    
+    [_world childNodeWithName:@"lButton"].position =
+    CGPointMake(camera.position.x+64, camera.position.y+64);
+    [_world childNodeWithName:@"rButton"].position =
+    CGPointMake(camera.position.x+64+128, camera.position.y+64);
+    [_world childNodeWithName:@"rewButton"].position =
+    CGPointMake(camera.position.x+64+320, camera.position.y+64);
+    [_world childNodeWithName:@"jButton"].position =
+    CGPointMake(camera.position.x+64+448, camera.position.y+64);
     
     
 }
