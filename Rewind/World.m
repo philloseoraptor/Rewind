@@ -108,7 +108,7 @@ static const float g = 0.02f;
 -(BOOL)isPlayeronGhost:(Ghost*)ghost {
     if (_player.position.x <= ghost.position.x+ghost.size.width &&
         _player.position.x >= ghost.position.x-ghost.size.width &&
-        _player.position.y <= ghost.position.y+ghost.size.height+0.05 &&
+        _player.position.y <= ghost.position.y+ghost.size.height+0.1 &&
         _player.position.y >= ghost.position.y+ghost.size.height-0.1) {
         return YES;
     }
@@ -123,9 +123,11 @@ static const float g = 0.02f;
         if ([self isPlayeronGhost:ghost]) {
             CGPoint oldPos = ghost.position;
             int gFrame = _currentFrame;
+            
             if (_currentFrame >= ghost.path.count) {
                 gFrame = ghost.path.count-1;
             }
+            
             CGPoint newPos = [[ghost.path objectAtIndex:gFrame]CGPointValue];
             CGPoint dif = CGPointMake(newPos.x-oldPos.x, newPos.y-oldPos.y);
             
